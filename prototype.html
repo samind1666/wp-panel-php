@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WP Hosting Panel — Premium</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+/* ============================
+   THEME VARIABLES
+   ============================ */
+[data-theme="dark"]{
+--bg-body:#06080f;
+--bg-sidebar:#0b0f1a;
+--bg-topbar:rgba(6,8,15,0.85);
+--bg-card:#111827;
+--bg-card-hover:#1a2035;
+--bg-input:#0c1022;
+--bg-hover:rgba(255,255,255,0.04);
+--bg-modal:#111827;
+--text-primary:#f1f3ff;
+--text-secondary:#94a3c0;
+--text-muted:#556380;
+--border:rgba(255,255,255,0.07);
+--border-hover:rgba(255,255,255,0.14);
+--shadow-card:0 1px 3px rgba(0,0,0,0.3),0 4px 20px rgba(0,0,0,0.2);
+--shadow-lg:0 8px 40px rgba(0,0,0,0.5);
+--glow-1:rgba(99,102,241,0.12);
+--glow-2:rgba(139,92,246,0.08);
+--chart-bg:rgba(255,255,255,0.02);
+--scrollbar-bg:#111827;
+--scrollbar-thumb:#6366f1;
+--overlay:rgba(3,5,10,0.75);
+--gradient-a:linear-gradient(135deg,#6366f1,#8b5cf6);
+--gradient-b:linear-gradient(135deg,#06b6d4,#3b82f6);
+--gradient-c:linear-gradient(135deg,#f59e0b,#ef4444);
+--gradient-d:linear-gradient(135deg,#10b981,#34d399);
+--gradient-e:linear-gradient(135deg,#ec4899,#8b5cf6);
+--gradient-f:linear-gradient(135deg,#6366f1,#06b6d4);
+--code-bg:#0a0e1a;
+}
+[data-theme="light"]{
+--bg-body:#f4f6fb;
+--bg-sidebar:#ffffff;
+--bg-topbar:rgba(255,255,255,0.85);
+--bg-card:#ffffff;
+--bg-card-hover:#f8f9fc;
+--bg-input:#f0f2f8;
+--bg-hover:rgba(0,0,0,0.03);
+--bg-modal:#ffffff;
+--text-primary:#1a1d2e;
+--text-secondary:#64748b;
+--text-muted:#94a3b8;
+--border:rgba(0,0,0,0.08);
+--border-hover:rgba(0,0,0,0.15);
+--shadow-card:0 1px 3px rgba(0,0,0,0.06),0 4px 20px rgba(0,0,0,0.04);
+--shadow-lg:0 8px 40px rgba(0,0,0,0.12);
+--glow-1:rgba(99,102,241,0.08);
+--glow-2:rgba(139,92,246,0.05);
+--chart-bg:rgba(0,0,0,0.02);
+--scrollbar-bg:#e2e8f0;
+--scrollbar-thumb:#94a3b8;
+--overlay:rgba(15,23,42,0.4);
+--gradient-a:linear-gradient(135deg,#6366f1,#8b5cf6);
+--gradient-b:linear-gradient(135deg,#06b6d4,#3b82f6);
+--gradient-c:linear-gradient(135deg,#f59e0b,#ef4444);
+--gradient-d:linear-gradient(135deg,#10b981,#34d399);
+--gradient-e:linear-gradient(135deg,#ec4899,#8b5cf6);
+--gradient-f:linear-gradient(135deg,#6366f1,#06b6d4);
+--code-bg:#f8fafc;
+}
+
+/* ============================
+   BASE
+   ============================ */
+html{scroll-behavior:smooth}
+body{
+font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+background:var(--bg-body);
+color:var(--text-primary);
+font-size:14px;line-height:1.6;
+transition:background .4s ease,color .4s ease;
+overflow-x:hidden;
+min-height:100vh;
+}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--scrollbar-bg)}
+::-webkit-scrollbar-thumb{background:var(--scrollbar-thumb);border-radius:10px}
+::selection{background:#6366f1;color:#fff}
+a{color:#6366f1;text-decoration:none}
+
+/* ============================
+   ANIMATIONS
+   ============================ */
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideRight{from{opacity:0;transform:translateX(-15px)}to{opacity:1;transform:translateX(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes glow{0%,100%{box-shadow:0 0 5px rgba(99,102,241,.3)}50%{box-shadow:0 0 20px rgba(99,102,241,.5),0 0 40px rgba(99,102,241,.15)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes ripple{to{transform:scale(4);opacity:0}}
+@keyframes orb{0%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-50px) scale(1.1)}66%{transform:translate(-20px,20px) scale(.9)}100%{transform:translate(0,0) scale(1)}}
+@keyframes borderRotate{0%{--angle:0deg}100%{--angle:360deg}}
+@keyframes barGrow{from{height:0}}
+.anim-in{animation:fadeIn .5s ease both}
+.d1{animation-delay:.05s}.d2{animation-delay:.1s}.d3{animation-delay:.15s}.d4{animation-delay:.2s}.d5{animation-delay:.25s}.d6{animation-delay:.3s}
+
+/* ============================
+   THEME TOGGLE
+   ============================ */
+.theme-toggle{
+width:56px;height:28px;
+background:var(--bg-input);
+border:1.5px solid var(--border);
+border-radius:28px;cursor:pointer;
+position:relative;transition:all .4s ease;
+flex-shrink:0;
+}
+.theme-toggle .knob{
+position:absolute;top:3px;left:3px;
+width:20px;height:20px;border-radius:50%;
+background:var(--gradient-a);
+transition:all .4s cubic-bezier(.68,-.55,.27,1.55);
+display:flex;align-items:center;justify-content:center;
+box-shadow:0 2px 8px rgba(99,102,241,.3);
+}
+.theme-toggle .knob i{font-size:10px;color:#fff}
+[data-theme="light"] .theme-toggle .knob{left:31px}
+[data-theme="dark"] .theme-toggle .knob .fa-moon{display:none}
+[data-theme="light"] .theme-toggle .knob .fa-sun{display:none}
+
+/* ============================
+   LOGIN PAGE
+   ============================ */
+#loginPage{
+position:fixed;inset:0;
+background:var(--bg-body);
+display:flex;align-items:center;justify-content:center;
+z-index:9999;overflow:hidden;
+transition:background .4s;
+}
+#loginPage.hide{display:none}
+.login-orbs{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.login-orbs span{
+position:absolute;border-radius:50%;filter:blur(100px);opacity:.12;
+animation:orb 20s ease-in-out infinite;
+}
+.login-orbs span:nth-child(1){width:500px;height:500px;background:#6366f1;top:-15%;left:-10%;animation-delay:0s}
+.login-orbs span:nth-child(2){width:400px;height:400px;background:#8b5cf6;bottom:-10%;right:-8%;animation-delay:-7s}
+.login-orbs span:nth-child(3){width:300px;height:300px;background:#06b6d4;top:40%;left:50%;animation-delay:-14s}
+.login-orbs span:nth-child(4){width:250px;height:250px;background:#ec4899;top:10%;right:20%;animation-delay:-4s}
+.login-card{
+position:relative;z-index:1;
+width:440px;max-width:94vw;
+background:var(--bg-card);
+border:1px solid var(--border);
+border-radius:24px;
+padding:48px 44px;
+box-shadow:var(--shadow-lg);
+animation:scaleIn .6s ease;
+transition:background .4s,border .4s;
+}
+.login-brand{text-align:center;margin-bottom:36px}
+.login-brand .icon{
+width:76px;height:76px;margin:0 auto 20px;
+background:var(--gradient-a);border-radius:22px;
+display:flex;align-items:center;justify-content:center;
+font-size:34px;color:#fff;
+box-shadow:0 10px 40px rgba(99,102,241,.35);
+}
+.login-brand h1{
+font-size:26px;font-weight:800;
+background:var(--gradient-a);
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+background-clip:text;
+}
+.login-brand p{color:var(--text-muted);font-size:13px;margin-top:4px;font-weight:400}
+.fg{margin-bottom:20px}
+.fg label{display:block;font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:7px}
+.fg .iw{position:relative;display:flex;align-items:center}
+.fg .iw i{position:absolute;left:14px;color:var(--text-muted);font-size:13px;transition:color .3s;pointer-events:none}
+.fg input,.fg select,.fg textarea{
+width:100%;padding:12px 14px 12px 42px;
+background:var(--bg-input);border:1.5px solid var(--border);
+border-radius:12px;color:var(--text-primary);font-size:14px;
+transition:all .3s;outline:none;font-family:inherit;
+}
+.fg select{padding-left:14px;cursor:pointer}
+.fg textarea{padding-left:14px;resize:vertical;min-height:80px}
+.fg input:focus,.fg select:focus,.fg textarea:focus{
+border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.12);
+}
+.fg input:focus~i{color:#6366f1}
+.fg input::placeholder,.fg textarea::placeholder{color:var(--text-muted)}
+.fg .hint{font-size:11px;color:var(--text-muted);margin-top:5px}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pass-bar{height:3px;background:var(--bg-input);border-radius:3px;margin-top:8px;overflow:hidden}
+.pass-bar .bar{height:100%;border-radius:3px;transition:all .4s;width:0}
+
+/* BUTTONS */
+.btn{
+display:inline-flex;align-items:center;justify-content:center;gap:8px;
+padding:11px 22px;border:none;border-radius:12px;
+font-size:13.5px;font-weight:600;cursor:pointer;
+transition:all .3s cubic-bezier(.4,0,.2,1);outline:none;
+position:relative;overflow:hidden;font-family:inherit;
+}
+.btn::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,0);transition:background .3s}
+.btn:hover::after{background:rgba(255,255,255,.06)}
+.btn:active{transform:scale(.98)}
+.btn-p{background:var(--gradient-a);color:#fff;box-shadow:0 4px 16px rgba(99,102,241,.35)}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(99,102,241,.45)}
+.btn-d{background:linear-gradient(135deg,#ef4444,#f87171);color:#fff;box-shadow:0 4px 16px rgba(239,68,68,.3)}
+.btn-d:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(239,68,68,.4)}
+.btn-s{background:linear-gradient(135deg,#10b981,#34d399);color:#fff;box-shadow:0 4px 16px rgba(16,185,129,.3)}
+.btn-s:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(16,185,129,.4)}
+.btn-g{background:transparent;color:var(--text-secondary);border:1.5px solid var(--border)}
+.btn-g:hover{border-color:var(--border-hover);color:var(--text-primary);background:var(--bg-hover)}
+.btn-w{background:rgba(245,158,11,.1);color:#f59e0b;border:1px solid rgba(245,158,11,.2)}
+.btn-w:hover{background:rgba(245,158,11,.18)}
+.btn-block{width:100%}
+.btn-lg{padding:14px 28px;font-size:15px;border-radius:14px}
+.btn-sm{padding:8px 16px;font-size:12px;border-radius:9px}
+.login-ft{text-align:center;margin-top:24px;color:var(--text-muted);font-size:13px}
+.login-ft a{color:#6366f1;font-weight:600;cursor:pointer}
+.login-ft a:hover{text-decoration:underline}
+#regForm{display:none}
+#regForm.show{display:block;animation:fadeIn .4s ease}
+
+/* ============================
+   SIDEBAR
+   ============================ */
+#app{display:none;min-height:100vh}
+#app.show{display:flex;width:100%}
+.sidebar{
+width:260px;min-height:100vh;
+background:var(--bg-sidebar);
+border-right:1px solid var(--border);
+position:fixed;left:0;top:0;bottom:0;z-index:100;
+display:flex;flex-direction:column;
+transition:all .4s cubic-bezier(.4,0,.2,1);
+overflow:hidden;
+}
+.sb-brand{
+padding:22px 20px;display:flex;align-items:center;gap:13px;
+border-bottom:1px solid var(--border);flex-shrink:0;
+}
+.sb-brand .ico{
+width:44px;height:44px;
+background:var(--gradient-a);border-radius:13px;
+display:flex;align-items:center;justify-content:center;
+font-size:20px;color:#fff;
+box-shadow:0 4px 16px rgba(99,102,241,.3);
+flex-shrink:0;
+}
+.sb-brand h2{font-size:17px;font-weight:800;color:var(--text-primary)}
+.sb-brand span{font-size:11px;color:var(--text-muted);font-weight:500}
+.sb-nav{flex:1;padding:14px 10px;overflow-y:auto}
+.sb-label{
+font-size:10px;font-weight:700;color:var(--text-muted);
+text-transform:uppercase;letter-spacing:1.5px;
+padding:18px 14px 8px;
+}
+.sb-item{
+display:flex;align-items:center;gap:12px;
+padding:10px 14px;margin-bottom:2px;
+border-radius:11px;color:var(--text-secondary);
+cursor:pointer;transition:all .25s;position:relative;
+font-size:13.5px;font-weight:500;
+text-decoration:none;
+}
+.sb-item i{width:20px;text-align:center;font-size:15px;transition:color .25s}
+.sb-item:hover{background:var(--bg-hover);color:var(--text-primary)}
+.sb-item.active{
+background:rgba(99,102,241,.1);
+color:#6366f1;font-weight:600;
+}
+.sb-item.active::before{
+content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);
+width:3px;height:22px;background:var(--gradient-a);border-radius:0 4px 4px 0;
+}
+.sb-item.active i{color:#6366f1}
+.sb-item .cnt{
+margin-left:auto;padding:1px 9px;
+font-size:10px;font-weight:700;border-radius:10px;
+background:rgba(99,102,241,.15);color:#6366f1;
+}
+.sb-item.logout-item{color:var(--text-muted)}
+.sb-item.logout-item:hover{color:#ef4444;background:rgba(239,68,68,.06)}
+.sb-foot{padding:14px;border-top:1px solid var(--border);flex-shrink:0}
+.sb-user{
+display:flex;align-items:center;gap:10px;
+padding:10px 12px;border-radius:12px;
+background:var(--bg-hover);
+}
+.sb-user .av{
+width:38px;height:38px;border-radius:11px;
+background:var(--gradient-a);
+display:flex;align-items:center;justify-content:center;
+font-size:13px;color:#fff;font-weight:800;
+flex-shrink:0;
+}
+.sb-user .un{font-size:13px;font-weight:600;color:var(--text-primary)}
+.sb-user .ur{font-size:11px;color:#6366f1;font-weight:500}
+
+/* ============================
+   MAIN
+   ============================ */
+.mc{margin-left:260px;min-height:100vh;flex:1;transition:margin .4s;width:calc(100% - 260px)}
+.topbar{
+height:68px;
+background:var(--bg-topbar);
+backdrop-filter:blur(24px);
+border-bottom:1px solid var(--border);
+display:flex;align-items:center;justify-content:space-between;
+padding:0 28px;position:sticky;top:0;z-index:50;
+transition:all .4s;width:100%;
+}
+.tb-left{display:flex;align-items:center;gap:16px}
+.tb-left .burger{
+display:none;width:38px;height:38px;
+background:var(--bg-card);border:1px solid var(--border);
+border-radius:11px;color:var(--text-secondary);
+font-size:15px;cursor:pointer;
+align-items:center;justify-content:center;transition:all .3s;
+}
+.tb-left .burger:hover{color:var(--text-primary);border-color:var(--border-hover)}
+.tb-left h2{font-size:18px;font-weight:700}
+.tb-right{display:flex;align-items:center;gap:10px}
+.tb-search{
+position:relative;display:flex;align-items:center;
+}
+.tb-search input{
+width:200px;padding:9px 14px 9px 36px;
+background:var(--bg-input);border:1.5px solid var(--border);
+border-radius:10px;color:var(--text-primary);
+font-size:13px;outline:none;transition:all .3s;
+}
+.tb-search input:focus{border-color:#6366f1;width:260px}
+.tb-search i{position:absolute;left:12px;color:var(--text-muted);font-size:12px}
+.tb-btn{
+width:38px;height:38px;display:flex;align-items:center;justify-content:center;
+background:var(--bg-card);border:1.5px solid var(--border);
+border-radius:11px;color:var(--text-secondary);
+font-size:14px;cursor:pointer;position:relative;transition:all .3s;
+}
+.tb-btn:hover{color:var(--text-primary);border-color:var(--border-hover)}
+.tb-btn .dot{
+position:absolute;top:7px;right:7px;width:8px;height:8px;
+background:#ef4444;border-radius:50%;
+border:2px solid var(--bg-body);animation:pulse 2s infinite;
+}
+.tb-sep{width:1px;height:28px;background:var(--border);margin:0 4px}
+
+.pc{padding:28px;width:100%;max-width:100%;overflow-x:hidden}
+.ps{display:none;animation:fadeIn .4s ease}
+.ps.active{display:block}
+
+/* ============================
+   CARDS
+   ============================ */
+.card{
+background:var(--bg-card);
+border:1px solid var(--border);
+border-radius:16px;
+padding:24px;
+transition:all .35s cubic-bezier(.4,0,.2,1);
+box-shadow:var(--shadow-card);
+}
+.card:hover{border-color:var(--border-hover);box-shadow:var(--shadow-lg)}
+.ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.ch h3{font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px}
+.ch .ca{display:flex;gap:8px}
+
+/* ============================
+   STATS
+   ============================ */
+.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:24px}
+.sc{
+background:var(--bg-card);border:1px solid var(--border);
+border-radius:16px;padding:22px 24px;
+transition:all .35s;position:relative;overflow:hidden;
+box-shadow:var(--shadow-card);
+}
+.sc:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--border-hover)}
+.sc .si{
+width:50px;height:50px;border-radius:14px;
+display:flex;align-items:center;justify-content:center;
+font-size:21px;flex-shrink:0;margin-bottom:16px;
+}
+.sc .si.i1{background:rgba(99,102,241,.12);color:#6366f1}
+.sc .si.i2{background:rgba(16,185,129,.12);color:#10b981}
+.sc .si.i3{background:rgba(245,158,11,.12);color:#f59e0b}
+.sc .si.i4{background:rgba(236,72,153,.12);color:#ec4899}
+.sc .si.i5{background:rgba(6,182,212,.12);color:#06b6d4}
+.sc h4{font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:6px}
+.sc .sv{font-size:30px;font-weight:900;line-height:1}
+.sc .sv small{font-size:14px;font-weight:500;color:var(--text-muted)}
+.sc .delta{font-size:12px;margin-top:8px;display:flex;align-items:center;gap:4px;font-weight:600}
+.sc .delta.up{color:#10b981}
+.sc .delta.down{color:#ef4444}
+.sc .bg-icon{position:absolute;right:-10px;bottom:-10px;font-size:90px;opacity:.03}
+
+/* ============================
+   TABLES
+   ============================ */
+.tw{overflow-x:auto;border-radius:14px;border:1px solid var(--border);background:var(--bg-card);box-shadow:var(--shadow-card);transition:all .35s;width:100%}
+table{width:100%;border-collapse:collapse}
+thead{background:var(--bg-hover)}
+th{padding:13px 18px;text-align:left;font-size:10.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--border)}
+td{padding:13px 18px;border-bottom:1px solid var(--border);color:var(--text-secondary);font-size:13px;vertical-align:middle}
+tbody tr{transition:background .2s}
+tbody tr:hover{background:var(--bg-hover)}
+tbody tr:last-child td{border-bottom:none}
+.ta{display:flex;gap:5px}
+.tab{
+width:30px;height:30px;display:flex;align-items:center;justify-content:center;
+border-radius:8px;border:1px solid var(--border);
+background:transparent;color:var(--text-muted);
+cursor:pointer;font-size:11px;transition:all .25s;
+}
+.tab:hover{background:var(--bg-hover);color:var(--text-primary);border-color:var(--border-hover)}
+.tab.dng:hover{background:rgba(239,68,68,.08);color:#ef4444;border-color:rgba(239,68,68,.25)}
+.tab.suc:hover{background:rgba(16,185,129,.08);color:#10b981;border-color:rgba(16,185,129,.25)}
+
+/* ============================
+   BADGES
+   ============================ */
+.bdg{
+display:inline-flex;align-items:center;gap:5px;
+padding:3px 11px;border-radius:20px;
+font-size:11px;font-weight:600;white-space:nowrap;
+}
+.bdg::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor}
+.bdg-a{background:rgba(16,185,129,.1);color:#10b981}
+.bdg-i{background:var(--bg-hover);color:var(--text-muted)}
+.bdg-e{background:rgba(239,68,68,.1);color:#ef4444}
+.bdg-w{background:rgba(245,158,11,.1);color:#f59e0b}
+.bdg-b{background:rgba(99,102,241,.1);color:#6366f1}
+.bdg-c{background:rgba(6,182,212,.1);color:#06b6d4}
+.bdg-a::before{animation:pulse 2s infinite}
+
+/* ============================
+   MODAL
+   ============================ */
+.mo{
+position:fixed;inset:0;
+background:var(--overlay);backdrop-filter:blur(10px);
+z-index:1000;display:none;align-items:center;justify-content:center;
+padding:20px;transition:opacity .3s;
+}
+.mo.show{display:flex}
+.md{
+background:var(--bg-modal);border:1px solid var(--border);
+border-radius:20px;width:100%;max-width:520px;
+box-shadow:var(--shadow-lg);animation:scaleIn .3s ease;
+overflow:hidden;transition:background .4s;
+}
+.md-h{display:flex;align-items:center;justify-content:space-between;padding:22px 26px;border-bottom:1px solid var(--border)}
+.md-h h3{font-size:17px;font-weight:700;display:flex;align-items:center;gap:8px}
+.md-x{
+width:32px;height:32px;display:flex;align-items:center;justify-content:center;
+border-radius:9px;border:none;background:var(--bg-hover);
+color:var(--text-muted);cursor:pointer;font-size:13px;transition:all .3s;
+}
+.md-x:hover{background:rgba(239,68,68,.1);color:#ef4444}
+.md-b{padding:24px 26px}
+.md-f{display:flex;justify-content:flex-end;gap:10px;padding:16px 26px;border-top:1px solid var(--border)}
+
+/* ============================
+   TOGGLE
+   ============================ */
+.tgl{position:relative;width:42px;height:22px;cursor:pointer;display:inline-block}
+.tgl input{display:none}
+.tgl .sl{position:absolute;inset:0;background:var(--bg-input);border:1.5px solid var(--border);border-radius:22px;transition:all .3s}
+.tgl .sl::before{content:'';position:absolute;width:16px;height:16px;left:2px;top:2px;background:var(--text-muted);border-radius:50%;transition:all .3s cubic-bezier(.68,-.55,.27,1.55)}
+.tgl input:checked+.sl{background:rgba(99,102,241,.15);border-color:#6366f1}
+.tgl input:checked+.sl::before{transform:translateX(20px);background:#6366f1}
+
+/* ============================
+   RADIO
+   ============================ */
+.rg{display:flex;gap:8px;flex-wrap:wrap}
+.rg label{
+display:flex;align-items:center;gap:7px;
+padding:9px 16px;border-radius:10px;
+border:1.5px solid var(--border);cursor:pointer;
+transition:all .3s;font-size:13px;font-weight:500;color:var(--text-secondary);
+}
+.rg input{display:none}
+.rg label:hover{border-color:var(--border-hover)}
+.rg label:has(input:checked){border-color:#6366f1;background:rgba(99,102,241,.08);color:#6366f1}
+
+/* ============================
+   PROGRESS
+   ============================ */
+.prg{height:5px;background:var(--bg-input);border-radius:5px;overflow:hidden}
+.prg .b{height:100%;border-radius:5px;transition:width 1s ease}
+.prg .b.g1{background:var(--gradient-a)}
+.prg .b.g2{background:var(--gradient-d)}
+.prg .b.g3{background:var(--gradient-c)}
+.prg .b.g4{background:var(--gradient-e)}
+
+/* ============================
+   GRIDS
+   ============================ */
+.g2{display:grid;grid-template-columns:1.2fr 0.8fr;gap:18px;margin-bottom:20px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:20px}
+.fw{grid-column:1/-1}
+
+/* ============================
+   INFO LIST
+   ============================ */
+.il{list-style:none}
+.il li{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--border);font-size:13px}
+.il li:last-child{border-bottom:none}
+.il .lbl{color:var(--text-secondary);display:flex;align-items:center;gap:8px}
+.il .lbl i{color:#6366f1;font-size:14px;width:18px;text-align:center}
+.il .val{color:var(--text-primary);font-weight:600}
+
+/* ============================
+   CHART
+   ============================ */
+.chart{height:200px;display:flex;align-items:flex-end;justify-content:center;gap:10px;padding:20px 16px;position:relative}
+.cb{width:36px;border-radius:8px 8px 0 0;transition:all .8s cubic-bezier(.4,0,.2,1);position:relative;animation:barGrow 1s ease both}
+.cb:hover{filter:brightness(1.15);transform:translateY(-4px)}
+.cb::after{content:attr(data-l);position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);font-size:9px;color:var(--text-muted);font-weight:500}
+.cb::before{content:attr(data-v);position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:700;color:var(--text-secondary);opacity:0;transition:opacity .3s}
+.cb:hover::before{opacity:1}
+
+/* ============================
+   TOAST
+   ============================ */
+.tc{position:fixed;top:80px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:10px}
+.toast{
+display:flex;align-items:center;gap:12px;
+padding:14px 20px;border-radius:14px;
+background:var(--bg-card);border:1px solid var(--border);
+box-shadow:var(--shadow-lg);min-width:300px;
+animation:slideRight .4s ease;
+transition:background .4s;
+}
+.toast.s{border-left:3px solid #10b981}.toast.s i{color:#10b981}
+.toast.e{border-left:3px solid #ef4444}.toast.e i{color:#ef4444}
+.toast.w{border-left:3px solid #f59e0b}.toast.w i{color:#f59e0b}
+.toast.i{border-left:3px solid #6366f1}.toast.i i{color:#6366f1}
+.toast .tm{flex:1;font-size:13px;color:var(--text-primary)}
+.toast .tx{cursor:pointer;color:var(--text-muted);font-size:13px;transition:color .3s}
+.toast .tx:hover{color:var(--text-primary)}
+
+/* ============================
+   LOADING
+   ============================ */
+.lo{position:fixed;inset:0;background:var(--bg-body);display:none;align-items:center;justify-content:center;z-index:10000;flex-direction:column;gap:14px;transition:opacity .3s}
+.lo.show{display:flex}
+.spinner{width:42px;height:42px;border:3px solid var(--border);border-top-color:#6366f1;border-radius:50%;animation:spin .7s linear infinite}
+
+/* ============================
+   STATUS BAR
+   ============================ */
+.sbar{
+display:flex;align-items:center;gap:10px;
+padding:12px 18px;border-radius:14px;margin-bottom:22px;
+border:1px solid rgba(16,185,129,.15);
+background:rgba(16,185,129,.04);
+}
+.sbar .dot{width:8px;height:8px;border-radius:50%;background:#10b981;animation:pulse 2s infinite}
+.sbar .st{font-size:13px;color:#10b981;font-weight:600}
+
+/* ============================
+   QUICK ACTIONS
+   ============================ */
+.qa{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap}
+.qa-btn{
+display:flex;align-items:center;gap:10px;
+padding:10px 18px;border-radius:11px;
+border:1.5px solid var(--border);
+background:var(--bg-card);color:var(--text-secondary);
+cursor:pointer;font-size:13px;font-weight:600;
+transition:all .3s;box-shadow:var(--shadow-card);
+}
+.qa-btn:hover{border-color:#6366f1;color:var(--text-primary);transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.qa-btn i{font-size:15px}
+
+/* ============================
+   FILE MANAGER
+   ============================ */
+.bcrumb{display:flex;align-items:center;gap:6px;margin-bottom:18px;font-size:13px;flex-wrap:wrap}
+.bcrumb a{color:#6366f1;cursor:pointer}
+.bcrumb .sep{color:var(--text-muted);font-size:10px}
+.bcrumb .cur{color:var(--text-primary);font-weight:600}
+.ftbar{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.fi{margin-right:8px;font-size:15px}
+.fi.dir{color:#f59e0b}.fi.php{color:#8b5cf6}.fi.html{color:#06b6d4}.fi.cfg{color:#10b981}.fi.def{color:var(--text-muted)}
+.fs{font-family:'JetBrains Mono',monospace;color:var(--text-muted);font-size:11.5px}
+
+/* ============================
+   DOMAIN CELL
+   ============================ */
+.dc{color:var(--text-primary);font-weight:600;display:flex;align-items:center;gap:6px}
+.dc i{color:#6366f1;font-size:11px}
+
+/* ============================
+   USER AVATAR
+   ============================ */
+.uav{
+width:34px;height:34px;border-radius:10px;
+display:flex;align-items:center;justify-content:center;
+font-size:11px;color:#fff;font-weight:800;
+flex-shrink:0;
+}
+
+/* ============================
+   RESPONSIVE
+   ============================ */
+@media(max-width:1024px){
+.sidebar{transform:translateX(-100%)}
+.sidebar.open{transform:translateX(0)}
+.mc{margin-left:0;width:100%}
+.tb-left .burger{display:flex}
+.fr{grid-template-columns:1fr}
+.g2{grid-template-columns:1fr}
+.sg{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+.sg{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr}
+.tb-search{display:none}
+.pc{padding:16px}
+.login-card{padding:32px 24px}
+}
+@media(max-width:480px){.sg{grid-template-columns:1fr}}
+
+/* ============================
+   INSTALL PROGRESS
+   ============================ */
+.inst-step{display:flex;align-items:flex-start;gap:14px;margin-bottom:20px;opacity:.35;transition:all .5s}
+.inst-step.active{opacity:1}.inst-step.done{opacity:.8}
+.inst-step .ico{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;border:2px solid var(--border);background:var(--bg-input);color:var(--text-muted);transition:all .4s}
+.inst-step.active .ico{border-color:#6366f1;background:rgba(99,102,241,.15);color:#6366f1;animation:glow 1.5s infinite}
+.inst-step.done .ico{border-color:#10b981;background:rgba(16,185,129,.15);color:#10b981}
+.inst-step .det h4{font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:2px}
+.inst-step .det p{font-size:11.5px;color:var(--text-muted)}
+.inst-step .det .spinner-sm{display:inline-block;width:12px;height:12px;border:2px solid var(--border);border-top-color:#6366f1;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px}
+.inst-step.done .det .ck{color:#10b981;font-size:12px;margin-right:4px}
+.inst-bar{height:6px;background:var(--bg-input);border-radius:6px;overflow:hidden;margin:20px 0}
+.inst-bar .fill{height:100%;border-radius:6px;background:var(--gradient-a);transition:width .8s cubic-bezier(.4,0,.2,1);width:0%}
+.inst-title{text-align:center;margin-bottom:20px}
+.inst-title .big-ico{width:64px;height:64px;border-radius:18px;background:var(--gradient-a);display:flex;align-items:center;justify-content:center;font-size:28px;color:#fff;margin:0 auto 14px;box-shadow:0 8px 30px rgba(99,102,241,.3)}
+.inst-title h3{font-size:18px;font-weight:800}
+.inst-title p{font-size:13px;color:var(--text-muted);margin-top:4px}
+.inst-pct{text-align:center;font-size:32px;font-weight:900;background:var(--gradient-a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:10px 0}
+.inst-done{text-align:center;padding:20px 0}
+.inst-done .done-ico{width:72px;height:72px;border-radius:50%;background:rgba(16,185,129,.12);display:flex;align-items:center;justify-content:center;font-size:32px;color:#10b981;margin:0 auto 16px;animation:scaleIn .5s ease}
+.inst-done h3{font-size:18px;font-weight:800;color:#10b981;margin-bottom:6px}
+.inst-done p{color:var(--text-muted);font-size:13px;margin-bottom:16px}
+.inst-done .creds{background:var(--bg-input);border-radius:12px;padding:16px;text-align:left;margin:12px 0}
+.inst-done .creds h4{font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.inst-done .cred-row{display:flex;justify-content:space-between;padding:6px 0;font-size:13px;border-bottom:1px solid var(--border)}
+.inst-done .cred-row:last-child{border-bottom:none}
+.inst-done .cred-row .cl{color:var(--text-secondary)}.inst-done .cred-row .cv{color:var(--text-primary);font-weight:600}
+.inst-done .btn-row{display:flex;gap:10px;justify-content:center;margin-top:18px}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div class="lo" id="lo"><div class="spinner"></div><div style="color:var(--text-muted);font-size:13px">Loading...</div></div>
+<!-- TOASTS -->
+<div class="tc" id="tc"></div>
+
+<!-- ============================
+     LOGIN
+     ============================ -->
+<div id="loginPage">
+<div class="login-orbs"><span></span><span></span><span></span><span></span></div>
+<div class="login-card">
+<div class="login-brand">
+<div class="icon"><i class="fa-brands fa-wordpress"></i></div>
+<h1>WP Hosting Panel</h1>
+<p>Premium WordPress Hosting Management</p>
+</div>
+<div id="loginForm">
+<div class="fg"><label>Email Address</label><div class="iw"><input type="email" id="le" placeholder="admin@wphosting.com" value="admin@wphosting.com"><i class="fa-solid fa-envelope"></i></div></div>
+<div class="fg"><label>Password</label><div class="iw"><input type="password" id="lp" placeholder="Enter password" value="admin123"><i class="fa-solid fa-lock"></i></div></div>
+<button class="btn btn-p btn-block btn-lg" onclick="doLogin()"><i class="fa-solid fa-arrow-right-to-bracket"></i> Sign In</button>
+<div class="login-ft">Don't have an account? <a onclick="togReg()">Create one</a></div>
+</div>
+<div id="regForm">
+<div class="fg"><label>Full Name</label><div class="iw"><input type="text" placeholder="John Doe"><i class="fa-solid fa-user"></i></div></div>
+<div class="fg"><label>Email</label><div class="iw"><input type="email" placeholder="you@example.com"><i class="fa-solid fa-envelope"></i></div></div>
+<div class="fg"><label>Password</label><div class="iw"><input type="password" id="rp" placeholder="Min 8 characters"><i class="fa-solid fa-lock"></i></div><div class="pass-bar"><div class="bar" id="pb"></div></div></div>
+<div class="fg"><label>Role</label><select><option>Customer</option><option>Reseller</option></select></div>
+<button class="btn btn-p btn-block btn-lg" onclick="doLogin()"><i class="fa-solid fa-user-plus"></i> Create Account</button>
+<div class="login-ft">Already have an account? <a onclick="togReg()">Sign in</a></div>
+</div>
+</div>
+</div>
+
+<!-- ============================
+     APP
+     ============================ -->
+<div id="app">
+<aside class="sidebar" id="sb">
+<div class="sb-brand">
+<div class="ico"><i class="fa-brands fa-wordpress"></i></div>
+<div><h2>WP Panel</h2><span>Premium Hosting</span></div>
+</div>
+<nav class="sb-nav">
+<div class="sb-label">Main</div>
+<div class="sb-item active" onclick="nav('dashboard')"><i class="fa-solid fa-gauge-high"></i><span>Dashboard</span></div>
+<div class="sb-item" onclick="nav('websites')"><i class="fa-solid fa-globe"></i><span>Websites</span><span class="cnt">12</span></div>
+<div class="sb-item" onclick="om('mInstWP')"><i class="fa-brands fa-wordpress"></i><span>Install WP</span></div>
+<div class="sb-item" onclick="nav('fm')"><i class="fa-solid fa-folder-tree"></i><span>File Manager</span></div>
+<div class="sb-item" onclick="nav('db')"><i class="fa-solid fa-database"></i><span>Databases</span></div>
+<div class="sb-label">Security</div>
+<div class="sb-item" onclick="nav('ssl')"><i class="fa-solid fa-shield-halved"></i><span>SSL Certificates</span></div>
+<div class="sb-item" onclick="nav('php')"><i class="fa-solid fa-code"></i><span>PHP Settings</span></div>
+<div class="sb-item" onclick="nav('cron')"><i class="fa-solid fa-clock"></i><span>Cron Jobs</span></div>
+<div class="sb-label">Server</div>
+<div class="sb-item" onclick="nav('server')"><i class="fa-solid fa-server"></i><span>Server Setup</span><span class="cnt" style="background:rgba(245,158,11,.15);color:#f59e0b">New</span></div>
+<div class="sb-label">Admin</div>
+<div class="sb-item" onclick="nav('users')"><i class="fa-solid fa-users-gear"></i><span>Users</span><span class="cnt">4</span></div>
+<div class="sb-item logout-item" onclick="doLogout()" style="margin-top:12px"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></div>
+</nav>
+<div class="sb-foot">
+<div class="sb-user">
+<div class="av">AD</div>
+<div><div class="un">Admin User</div><div class="ur">Administrator</div></div>
+</div>
+</div>
+</aside>
+
+<div class="mc">
+<header class="topbar">
+<div class="tb-left">
+<button class="burger" onclick="toggleSB()"><i class="fa-solid fa-bars"></i></button>
+<h2 id="pt">Dashboard</h2>
+</div>
+<div class="tb-right">
+<div class="tb-search"><i class="fa-solid fa-magnifying-glass"></i><input placeholder="Search..."></div>
+<div class="tb-sep"></div>
+<div class="theme-toggle" onclick="togTheme()" title="Toggle theme"><div class="knob"><i class="fa-solid fa-moon"></i><i class="fa-solid fa-sun"></i></div></div>
+<button class="tb-btn"><i class="fa-solid fa-bell"></i><span class="dot"></span></button>
+<button class="tb-btn"><i class="fa-solid fa-gear"></i></button>
+</div>
+</header>
+
+<div class="pc">
+
+<!-- ============================
+     DASHBOARD
+     ============================ -->
+<section class="ps active" id="p-dashboard">
+<div class="sbar"><span class="dot"></span><span class="st">All systems operational &mdash; Uptime: 99.98%</span></div>
+<div class="sg">
+<div class="sc anim-in d1"><div class="si i1"><i class="fa-solid fa-globe"></i></div><h4>Websites</h4><div class="sv">12</div><div class="delta up"><i class="fa-solid fa-arrow-up"></i> 3 this month</div><div class="bg-icon"><i class="fa-solid fa-globe"></i></div></div>
+<div class="sc anim-in d2"><div class="si i2"><i class="fa-solid fa-database"></i></div><h4>Databases</h4><div class="sv">8</div><div class="delta up"><i class="fa-solid fa-arrow-up"></i> 2 new</div><div class="bg-icon"><i class="fa-solid fa-database"></i></div></div>
+<div class="sc anim-in d3"><div class="si i3"><i class="fa-solid fa-shield-halved"></i></div><h4>SSL Active</h4><div class="sv">10</div><div class="delta up"><i class="fa-solid fa-check"></i> 100% coverage</div><div class="bg-icon"><i class="fa-solid fa-shield-halved"></i></div></div>
+<div class="sc anim-in d4"><div class="si i4"><i class="fa-solid fa-hard-drive"></i></div><h4>Disk Usage</h4><div class="sv">24.5 <small>GB</small></div><div class="prg" style="width:120px"><div class="b g1" style="width:24.5%"></div></div><div class="bg-icon"><i class="fa-solid fa-hard-drive"></i></div></div>
+</div>
+<div class="qa">
+<button class="qa-btn" onclick="om('mCreate')"><i class="fa-solid fa-plus"></i> Create Website</button>
+<button class="qa-btn" onclick="om('mInstWP')"><i class="fa-brands fa-wordpress"></i> Install WordPress</button>
+<button class="qa-btn" onclick="om('mInstSSL')"><i class="fa-solid fa-lock"></i> Install SSL</button>
+<button class="qa-btn"><i class="fa-solid fa-server"></i> System Info</button>
+</div>
+<div class="g2">
+<div class="card anim-in d3">
+<div class="ch"><h3><i class="fa-solid fa-chart-line" style="color:#6366f1"></i> Bandwidth</h3><select style="padding:5px 10px;font-size:11px;background:var(--bg-input);border:1px solid var(--border);border-radius:8px;color:var(--text-secondary);outline:none"><option>7 Days</option><option>30 Days</option></select></div>
+<div class="chart">
+<div class="cb" style="height:38%;background:var(--gradient-a)" data-l="Mon" data-v="2.1 GB"></div>
+<div class="cb" style="height:62%;background:var(--gradient-a)" data-l="Tue" data-v="3.4 GB"></div>
+<div class="cb" style="height:48%;background:var(--gradient-a)" data-l="Wed" data-v="2.7 GB"></div>
+<div class="cb" style="height:80%;background:var(--gradient-b)" data-l="Thu" data-v="4.2 GB"></div>
+<div class="cb" style="height:52%;background:var(--gradient-a)" data-l="Fri" data-v="2.9 GB"></div>
+<div class="cb" style="height:30%;background:var(--gradient-a)" data-l="Sat" data-v="1.8 GB"></div>
+<div class="cb" style="height:68%;background:var(--gradient-b)" data-l="Sun" data-v="3.8 GB"></div>
+</div>
+</div>
+<div class="card anim-in d4">
+<div class="ch"><h3><i class="fa-solid fa-server" style="color:#10b981"></i> System Info</h3><span class="bdg bdg-a">Online</span></div>
+<ul class="il">
+<li><span class="lbl"><i class="fa-solid fa-network-wired"></i> Server IP</span><span class="val">192.168.1.100</span></li>
+<li><span class="lbl"><i class="fa-brands fa-php"></i> PHP</span><span class="val">8.0.30</span></li>
+<li><span class="lbl"><i class="fa-solid fa-database"></i> MySQL</span><span class="val">10.6.12</span></li>
+<li><span class="lbl"><i class="fa-solid fa-server"></i> Web Server</span><span class="val">OpenLiteSpeed 1.8</span></li>
+<li><span class="lbl"><i class="fa-solid fa-hard-drive"></i> Disk</span><span class="val">24.5 / 100 GB</span></li>
+<li><span class="lbl"><i class="fa-solid fa-clock"></i> Uptime</span><span class="val">45d 12h</span></li>
+<li><span class="lbl"><i class="fa-solid fa-microchip"></i> CPU</span><span class="val" style="color:#10b981">12%</span></li>
+<li><span class="lbl"><i class="fa-solid fa-memory"></i> RAM</span><span class="val">1.8 / 4 GB</span></li>
+</ul>
+</div>
+</div>
+<div class="card anim-in d5">
+<div class="ch"><h3><i class="fa-solid fa-globe" style="color:#06b6d4"></i> Recent Websites</h3><button class="btn btn-sm btn-g" onclick="nav('websites')">View All <i class="fa-solid fa-arrow-right" style="font-size:10px"></i></button></div>
+<div class="tw">
+<table>
+<thead><tr><th>Domain</th><th>PHP</th><th>WordPress</th><th>SSL</th><th>Status</th><th>Actions</th></tr></thead>
+<tbody>
+<tr><td class="dc"><i class="fa-solid fa-arrow-up-right-from-square"></i>example.com</td><td>8.0</td><td><span class="bdg bdg-b">WP 6.4.2</span></td><td><span class="bdg bdg-a">Active</span></td><td><span class="bdg bdg-a">Active</span></td><td><div class="ta"><button class="tab"><i class="fa-solid fa-gear"></i></button><button class="tab"><i class="fa-solid fa-external-link-alt"></i></button></div></td></tr>
+<tr><td class="dc"><i class="fa-solid fa-arrow-up-right-from-square"></i>myblog.com</td><td>8.2</td><td><span class="bdg bdg-i">Not Installed</span></td><td><span class="bdg bdg-a">Active</span></td><td><span class="bdg bdg-a">Active</span></td><td><div class="ta"><button class="tab suc" onclick="om('mInstWP')" title="Install WP"><i class="fa-brands fa-wordpress"></i></button><button class="tab"><i class="fa-solid fa-gear"></i></button></div></td></tr>
+<tr><td class="dc"><i class="fa-solid fa-arrow-up-right-from-square"></i>shopsite.com</td><td>8.1</td><td><span class="bdg bdg-b">WP 6.3.1</span></td><td><span class="bdg bdg-e">Expired</span></td><td><span class="bdg bdg-a">Active</span></td><td><div class="ta"><button class="tab"><i class="fa-solid fa-rotate"></i></button><button class="tab"><i class="fa-solid fa-gear"></i></button></div></td></tr>
+<tr><td class="dc"><i class="fa-solid fa-arrow-up-right-from-square"></i>portfolio.net</td><td>8.0</td><td><span class="bdg bdg-b">WP 6.4.2</span></td><td><span class="bdg bdg-a">Active</span></td><td><span class="bdg bdg-i">Inactive</span></td><td><div class="ta"><button class="tab"><i class="fa-solid fa-gear"></i></button></div></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+
+<!-- ============================
+     WEBSITES
+     ============================ -->
+<section class="ps" id="p-websites">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px">
+<div><h3 style="font-size:20px;font-weight:800">Websites</h3><p style="color:var(--text-muted);font-size:13px;margin-top:3px">Manage all your WordPress sites</p></div>
+<button class="btn btn-p" onclick="om('mCreate')"><i class="fa-solid fa-plus"></i> Create Website</button>
+</div>
+<div class="tw">
+<table>
+<thead><tr><th>Domain</th><th>PHP</th><th>WordPress</th><th>SSL</th><th>Disk</th><th>Created</th><th>Actions</th></tr></thead>
+<tbody>
+<tr><td class="dc"><i class="fa-solid fa-arrow-up-right-from-square"></i>example.com</td><td style="font-weight:600;color:#06b6d4">8.0</td><td><span class="bdg bdg-b">WP 6.4.2</span></td><td><span class="bdg bdg-a">Active</span></td><td>3.2 GB<div class="prg" style="width:70px;margin-top:4px"><div class="b g1" style="width:32%"></div></div></td><td>Jan 15</td><td><div class="ta"><button class="tab"><i class="fa-solid fa-gear"></i></button><button class="tab"><i class="fa-solid fa-shield-halved"></i></button><button class="tab dng" onclick="om('mDel')"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+<tr><td class="dc"><i class="fa-solid fa-arrow-up-right-from-square"></i>myblog.com</td><td style="font-weight:600;color:#06b6d4">8.2</td><td><span class="bdg bdg-i">Not Installed</span></td><td><span class="bdg bdg-a">Active</span></td><td>0.4 GB<div class="prg" style="width:70px;margin-top:4px"><div class="b g2" style="width:4%"></div></div></td><td>Feb 20</td><td><div class="ta"><button class="tab suc" onclick="om('mInstWP')" title="Install WP"><i class="fa-brands fa-wordpress"></i></button><button class="tab dng" onclick="om('mDel')"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+<tr><td class="dc"><i class="fa-solid fa-arrow-up-right-from-square"></i>shopsite.com</td><td style="font-weight:600;color:#06b6d4">8.1</td><td><span class="bdg bdg-b">WP 6.3.1</span></td><td><span class="bdg bdg-e">Expired</span></td><td>8.7 GB<div class="prg" style="width:70px;margin-top:4px"><div class="b g3" style="width:87%"></div></div></td><td>Mar 10</td><td><div class="ta"><button class="tab"><i class="fa-solid fa-rotate"></i></button><button class="tab dng"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+<tr><td class="dc"><i class="fa-solid fa-arrow-up-right-from-square"></i>portfolio.net</td><td style="font-weight:600;color:#06b6d4">8.0</td><td><span class="bdg bdg-b">WP 6.4.2</span></td><td><span class="bdg bdg-a">Active</span></td><td>1.1 GB<div class="prg" style="width:70px;margin-top:4px"><div class="b g1" style="width:11%"></div></div></td><td>Jan 05</td><td><div class="ta"><button class="tab"><i class="fa-solid fa-gear"></i></button><button class="tab dng"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+<tr><td class="dc"><i class="fa-solid fa-arrow-up-right-from-square"></i>testsite.org</td><td style="font-weight:600;color:#06b6d4">8.3</td><td><span class="bdg bdg-i">Not Installed</span></td><td><span class="bdg bdg-i">None</span></td><td>0.1 GB<div class="prg" style="width:70px;margin-top:4px"><div class="b g2" style="width:1%"></div></div></td><td>Apr 01</td><td><div class="ta"><button class="tab suc" onclick="om('mInstWP')"><i class="fa-brands fa-wordpress"></i></button><button class="tab" onclick="om('mInstSSL')"><i class="fa-solid fa-lock"></i></button><button class="tab dng" onclick="om('mDel')"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+<tr><td class="dc"><i class="fa-solid fa-arrow-up-right-from-square"></i>techblog.io</td><td style="font-weight:600;color:#06b6d4">8.2</td><td><span class="bdg bdg-b">WP 6.4.1</span></td><td><span class="bdg bdg-a">Active</span></td><td>2.4 GB<div class="prg" style="width:70px;margin-top:4px"><div class="b g1" style="width:24%"></div></div></td><td>Mar 25</td><td><div class="ta"><button class="tab"><i class="fa-solid fa-gear"></i></button><button class="tab dng"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- ============================
+     FILE MANAGER
+     ============================ -->
+<section class="ps" id="p-fm">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+<div><h3 style="font-size:20px;font-weight:800">File Manager</h3><div class="bcrumb" style="margin-top:8px;margin-bottom:0"><a>Home</a><span class="sep"><i class="fa-solid fa-chevron-right"></i></span><a>example.com</a><span class="sep"><i class="fa-solid fa-chevron-right"></i></span><span class="cur">public_html</span></div></div>
+</div>
+<div class="ftbar">
+<button class="btn btn-sm btn-p"><i class="fa-solid fa-cloud-arrow-up"></i> Upload</button>
+<button class="btn btn-sm btn-g"><i class="fa-solid fa-file-circle-plus"></i> New File</button>
+<button class="btn btn-sm btn-g"><i class="fa-solid fa-folder-plus"></i> New Folder</button>
+<button class="btn btn-sm btn-g" style="color:#ef4444"><i class="fa-solid fa-trash-can"></i> Delete</button>
+<button class="btn btn-sm btn-g"><i class="fa-solid fa-file-zipper"></i> Compress</button>
+</div>
+<div class="tw" style="border:1px solid var(--border)">
+<table>
+<thead><tr><th>Name</th><th>Size</th><th>Modified</th><th>Permissions</th><th>Actions</th></tr></thead>
+<tbody>
+<tr style="cursor:pointer"><td><span class="fi dir"><i class="fa-solid fa-folder"></i></span><strong>wp-admin</strong></td><td class="fs">4.0 KB</td><td>Mar 15, 2024</td><td style="font-family:monospace;color:#06b6d4">drwxr-xr-x</td><td><div class="ta"><button class="tab"><i class="fa-solid fa-pen"></i></button><button class="tab dng"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+<tr style="cursor:pointer"><td><span class="fi dir"><i class="fa-solid fa-folder"></i></span><strong>wp-content</strong></td><td class="fs">8.0 KB</td><td>Mar 15, 2024</td><td style="font-family:monospace;color:#06b6d4">drwxr-xr-x</td><td><div class="ta"><button class="tab"><i class="fa-solid fa-pen"></i></button><button class="tab dng"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+<tr style="cursor:pointer"><td><span class="fi dir"><i class="fa-solid fa-folder"></i></span><strong>wp-includes</strong></td><td class="fs">16.0 KB</td><td>Mar 15, 2024</td><td style="font-family:monospace;color:#06b6d4">drwxr-xr-x</td><td><div class="ta"><button class="tab"><i class="fa-solid fa-pen"></i></button><button class="tab dng"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+<tr onclick="om('mEditor')"><td><span class="fi cfg"><i class="fa-solid fa-file-code"></i></span>.htaccess</td><td class="fs">0.4 KB</td><td>Mar 15, 2024</td><td style="font-family:monospace;color:#10b981">-rw-r--r--</td><td><div class="ta"><button class="tab" onclick="om('mEditor')"><i class="fa-solid fa-pen"></i></button><button class="tab"><i class="fa-solid fa-download"></i></button><button class="tab dng"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+<tr><td><span class="fi php"><i class="fa-brands fa-php"></i></span>index.php</td><td class="fs">0.5 KB</td><td>Mar 15, 2024</td><td style="font-family:monospace;color:#10b981">-rw-r--r--</td><td><div class="ta"><button class="tab" onclick="om('mEditor')"><i class="fa-solid fa-pen"></i></button><button class="tab"><i class="fa-solid fa-download"></i></button></div></td></tr>
+<tr><td><span class="fi php"><i class="fa-brands fa-php"></i></span>wp-config.php</td><td class="fs">2.1 KB</td><td>Mar 15, 2024</td><td style="font-family:monospace;color:#10b981">-rw-r--r--</td><td><div class="ta"><button class="tab" onclick="om('mEditor')"><i class="fa-solid fa-pen"></i></button><button class="tab dng"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+<tr><td><span class="fi html"><i class="fa-solid fa-file-lines"></i></span>readme.html</td><td class="fs">7.3 KB</td><td>Mar 15, 2024</td><td style="font-family:monospace;color:#10b981">-rw-r--r--</td><td><div class="ta"><button class="tab"><i class="fa-solid fa-download"></i></button><button class="tab dng"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+<tr><td><span class="fi php"><i class="fa-brands fa-php"></i></span>wp-login.php</td><td class="fs">46.2 KB</td><td>Mar 15, 2024</td><td style="font-family:monospace;color:#10b981">-rw-r--r--</td><td><div class="ta"><button class="tab" onclick="om('mEditor')"><i class="fa-solid fa-pen"></i></button><button class="tab"><i class="fa-solid fa-download"></i></button></div></td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- ============================
+     DATABASE
+     ============================ -->
+<section class="ps" id="p-db">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px">
+<div><h3 style="font-size:20px;font-weight:800">Databases</h3><p style="color:var(--text-muted);font-size:13px;margin-top:3px">MySQL database management</p></div>
+<button class="btn btn-p" onclick="om('mDb')"><i class="fa-solid fa-plus"></i> Create Database</button>
+</div>
+<div class="sg" style="margin-bottom:18px">
+<div class="sc"><div class="si i1"><i class="fa-solid fa-database"></i></div><h4>Total</h4><div class="sv">5</div></div>
+<div class="sc"><div class="si i2"><i class="fa-solid fa-hard-drive"></i></div><h4>Total Size</h4><div class="sv">66.3 <small>MB</small></div></div>
+</div>
+<div class="tw">
+<table>
+<thead><tr><th>Database</th><th>User</th><th>Size</th><th>Tables</th><th>Created</th><th>Actions</th></tr></thead>
+<tbody>
+<tr><td style="font-weight:600;color:var(--text-primary)"><i class="fa-solid fa-database" style="color:#6366f1;margin-right:8px"></i>example_db</td><td>example_user</td><td class="fs">12.4 MB</td><td>48</td><td>Jan 15</td><td><div class="ta"><button class="tab"><i class="fa-solid fa-external-link-alt"></i></button><button class="tab"><i class="fa-solid fa-download"></i></button><button class="tab dng"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+<tr><td style="font-weight:600;color:var(--text-primary)"><i class="fa-solid fa-database" style="color:#6366f1;margin-right:8px"></i>myblog_db</td><td>myblog_user</td><td class="fs">5.2 MB</td><td>32</td><td>Feb 20</td><td><div class="ta"><button class="tab"><i class="fa-solid fa-external-link-alt"></i></button><button class="tab dng"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+<tr><td style="font-weight:600;color:var(--text-primary)"><i class="fa-solid fa-database" style="color:#6366f1;margin-right:8px"></i>shopsite_db</td><td>shopsite_user</td><td class="fs">45.8 MB</td><td>87</td><td>Mar 10</td><td><div class="ta"><button class="tab"><i class="fa-solid fa-external-link-alt"></i></button><button class="tab dng"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+<tr><td style="font-weight:600;color:var(--text-primary)"><i class="fa-solid fa-database" style="color:#6366f1;margin-right:8px"></i>portfolio_db</td><td>portfolio_user</td><td class="fs">2.1 MB</td><td>18</td><td>Jan 05</td><td><div class="ta"><button class="tab"><i class="fa-solid fa-external-link-alt"></i></button><button class="tab dng"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+<tr><td style="font-weight:600;color:var(--text-primary)"><i class="fa-solid fa-database" style="color:#6366f1;margin-right:8px"></i>testsite_db</td><td>testsite_user</td><td class="fs">0.8 MB</td><td>12</td><td>Apr 01</td><td><div class="ta"><button class="tab"><i class="fa-solid fa-external-link-alt"></i></button><button class="tab dng"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- ============================
+     SSL
+     ============================ -->
+<section class="ps" id="p-ssl">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px">
+<div><h3 style="font-size:20px;font-weight:800">SSL Certificates</h3><p style="color:var(--text-muted);font-size:13px;margin-top:3px">Let's Encrypt free SSL management</p></div>
+<button class="btn btn-p" onclick="om('mSsl')"><i class="fa-solid fa-lock"></i> Install SSL</button>
+</div>
+<div class="sg" style="margin-bottom:18px">
+<div class="sc"><div class="si i2"><i class="fa-solid fa-shield-halved"></i></div><h4>Active</h4><div class="sv" style="color:#10b981">3</div></div>
+<div class="sc"><div class="si i3"><i class="fa-solid fa-triangle-exclamation"></i></div><h4>Expired</h4><div class="sv" style="color:#f59e0b">1</div></div>
+<div class="sc"><div class="si i1"><i class="fa-solid fa-certificate"></i></div><h4>Auto-Renew</h4><div class="sv" style="color:#6366f1">ON</div></div>
+</div>
+<div class="tw">
+<table>
+<thead><tr><th>Domain</th><th>Status</th><th>Issuer</th><th>Expiry</th><th>Auto-Renew</th><th>Actions</th></tr></thead>
+<tbody>
+<tr><td class="dc"><i class="fa-solid fa-arrow-up-right-from-square"></i>example.com</td><td><span class="bdg bdg-a">Active</span></td><td style="color:var(--text-primary);font-weight:500">Let's Encrypt</td><td>Jan 15, 2025</td><td><label class="tgl"><input type="checkbox" checked><span class="sl"></span></label></td><td><div class="ta"><button class="tab"><i class="fa-solid fa-eye"></i></button><button class="tab dng"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+<tr><td class="dc"><i class="fa-solid fa-arrow-up-right-from-square"></i>myblog.com</td><td><span class="bdg bdg-a">Active</span></td><td style="color:var(--text-primary);font-weight:500">Let's Encrypt</td><td>Feb 20, 2025</td><td><label class="tgl"><input type="checkbox" checked><span class="sl"></span></label></td><td><div class="ta"><button class="tab"><i class="fa-solid fa-eye"></i></button><button class="tab dng"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+<tr><td class="dc"><i class="fa-solid fa-arrow-up-right-from-square"></i>shopsite.com</td><td><span class="bdg bdg-e">Expired</span></td><td style="color:var(--text-primary);font-weight:500">Let's Encrypt</td><td style="color:#ef4444;font-weight:700">Mar 10, 2024</td><td><label class="tgl"><input type="checkbox"><span class="sl"></span></label></td><td><div class="ta"><button class="tab suc"><i class="fa-solid fa-rotate"></i></button><button class="tab dng"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+<tr><td class="dc"><i class="fa-solid fa-arrow-up-right-from-square"></i>portfolio.net</td><td><span class="bdg bdg-a">Active</span></td><td style="color:var(--text-primary);font-weight:500">Let's Encrypt</td><td>Jan 05, 2025</td><td><label class="tgl"><input type="checkbox" checked><span class="sl"></span></label></td><td><div class="ta"><button class="tab"><i class="fa-solid fa-eye"></i></button><button class="tab dng"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- ============================
+     PHP SETTINGS
+     ============================ -->
+<section class="ps" id="p-php">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px">
+<div><h3 style="font-size:20px;font-weight:800">PHP Settings</h3><p style="color:var(--text-muted);font-size:13px;margin-top:3px">Configure PHP version and runtime</p></div>
+<button class="btn btn-sm btn-g"><i class="fa-solid fa-info-circle"></i> PHP Info</button>
+</div>
+<div class="fg" style="max-width:280px;margin-bottom:20px"><label>Domain</label><select><option>example.com</option><option>myblog.com</option><option>shopsite.com</option></select></div>
+<div class="g2">
+<div class="card">
+<div class="ch"><h3><i class="fa-brands fa-php" style="color:#8b5cf6"></i> PHP Version</h3></div>
+<div class="fg"><label>Choose Version</label><div class="rg"><label><input type="radio" name="pv" checked><span>8.0</span></label><label><input type="radio" name="pv"><span>8.1</span></label><label><input type="radio" name="pv"><span>8.2</span></label><label><input type="radio" name="pv"><span>8.3</span></label></div></div>
+<div class="card" style="margin-top:14px;border-color:rgba(16,185,129,.15);background:rgba(16,185,129,.03)">
+<h4 style="font-size:13px;font-weight:700;color:#10b981;margin-bottom:10px"><i class="fa-solid fa-circle-check"></i> OPcache</h4>
+<ul class="il"><li><span class="lbl">Enabled</span><span class="val" style="color:#10b981">Yes</span></li><li><span class="lbl">Memory</span><span class="val">128 MB</span></li><li><span class="lbl">Scripts</span><span class="val">1,247</span></li><li><span class="lbl">Hit Rate</span><span class="val" style="color:#10b981">98.5%</span></li></ul>
+</div>
+</div>
+<div class="card">
+<div class="ch"><h3><i class="fa-solid fa-sliders" style="color:#6366f1"></i> Runtime Config</h3></div>
+<div class="fg"><label>Memory Limit</label><select><option>128 MB</option><option selected>256 MB</option><option>512 MB</option><option>1 GB</option></select></div>
+<div class="fg"><label>Upload Size</label><select><option>2 MB</option><option>8 MB</option><option>16 MB</option><option selected>64 MB</option><option>128 MB</option></select></div>
+<div class="fg"><label>Post Max Size</label><select><option>8 MB</option><option selected>128 MB</option><option>256 MB</option></select></div>
+<div class="fg"><label>Execution Time</label><select><option>30s</option><option>60s</option><option selected>300s</option><option>600s</option></select></div>
+<div class="fg"><label>Display Errors</label><div style="display:flex;align-items:center;gap:10px"><label class="tgl"><input type="checkbox"><span class="sl"></span></label><span style="color:var(--text-muted);font-size:12px">Off in production</span></div></div>
+<div style="margin-top:18px"><button class="btn btn-p" onclick="toast('Settings saved!','s')"><i class="fa-solid fa-floppy-disk"></i> Save</button></div>
+</div>
+</div>
+</section>
+
+<!-- ============================
+     CRON JOBS
+     ============================ -->
+<section class="ps" id="p-cron">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px">
+<div><h3 style="font-size:20px;font-weight:800">Cron Jobs</h3><p style="color:var(--text-muted);font-size:13px;margin-top:3px">Schedule automated tasks</p></div>
+<button class="btn btn-p" onclick="om('mCron')"><i class="fa-solid fa-plus"></i> Add Cron Job</button>
+</div>
+<div class="tw">
+<table>
+<thead><tr><th>Command</th><th>Schedule</th><th>Next Run</th><th>Status</th><th>Actions</th></tr></thead>
+<tbody>
+<tr><td style="font-family:monospace;font-size:11.5px;color:#06b6d4;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">wp cron event run --due-now --path=/home/example.com/public_html</td><td><span class="bdg bdg-b">Hourly</span></td><td style="font-weight:600">14:30 Today</td><td><label class="tgl"><input type="checkbox" checked><span class="sl"></span></label></td><td><div class="ta"><button class="tab"><i class="fa-solid fa-pen"></i></button><button class="tab dng"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+<tr><td style="font-family:monospace;font-size:11.5px;color:#06b6d4;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">mysqldump -u root example_db > /backup/example_db.sql</td><td><span class="bdg bdg-a">Daily</span></td><td style="font-weight:600">02:00 Tomorrow</td><td><label class="tgl"><input type="checkbox" checked><span class="sl"></span></label></td><td><div class="ta"><button class="tab"><i class="fa-solid fa-pen"></i></button><button class="tab dng"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+<tr><td style="font-family:monospace;font-size:11.5px;color:#06b6d4;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">find /tmp -type f -mtime +7 -delete</td><td><span class="bdg bdg-i">Weekly</span></td><td style="font-weight:600">Sun 00:00</td><td><label class="tgl"><input type="checkbox"><span class="sl"></span></label></td><td><div class="ta"><button class="tab"><i class="fa-solid fa-pen"></i></button><button class="tab dng"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+<tr><td style="font-family:monospace;font-size:11.5px;color:#06b6d4;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">certbot renew --quiet</td><td><span class="bdg bdg-w">Monthly</span></td><td style="font-weight:600">1st of Month</td><td><label class="tgl"><input type="checkbox" checked><span class="sl"></span></label></td><td><div class="ta"><button class="tab"><i class="fa-solid fa-pen"></i></button><button class="tab dng"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- ============================
+     USERS
+     ============================ -->
+<section class="ps" id="p-users">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px">
+<div><h3 style="font-size:20px;font-weight:800">Users</h3><p style="color:var(--text-muted);font-size:13px;margin-top:3px">Manage panel users and roles</p></div>
+<button class="btn btn-p" onclick="om('mUser')"><i class="fa-solid fa-user-plus"></i> Add User</button>
+</div>
+<div class="sg" style="margin-bottom:18px">
+<div class="sc"><div class="si i4"><i class="fa-solid fa-user"></i></div><h4>Total</h4><div class="sv">4</div></div>
+<div class="sc"><div class="si i2"><i class="fa-solid fa-circle-check"></i></div><h4>Active</h4><div class="sv" style="color:#10b981">3</div></div>
+<div class="sc"><div class="si i5"><i class="fa-solid fa-globe"></i></div><h4>Total Sites</h4><div class="sv">12</div></div>
+</div>
+<div class="tw">
+<table>
+<thead><tr><th>User</th><th>Email</th><th>Role</th><th>Status</th><th>Sites</th><th>Actions</th></tr></thead>
+<tbody>
+<tr><td><div style="display:flex;align-items:center;gap:10px"><div class="uav" style="background:var(--gradient-c)">AU</div><span style="font-weight:600;color:var(--text-primary)">Admin User</span></div></td><td>admin@wphosting.com</td><td><span class="bdg bdg-e">Admin</span></td><td><span class="bdg bdg-a">Active</span></td><td style="font-weight:600">12</td><td><div class="ta"><button class="tab"><i class="fa-solid fa-pen"></i></button></div></td></tr>
+<tr><td><div style="display:flex;align-items:center;gap:10px"><div class="uav" style="background:var(--gradient-a)">JD</div><span style="font-weight:600;color:var(--text-primary)">John Doe</span></div></td><td>john@example.com</td><td><span class="bdg bdg-b">Reseller</span></td><td><span class="bdg bdg-a">Active</span></td><td style="font-weight:600">5</td><td><div class="ta"><button class="tab"><i class="fa-solid fa-pen"></i></button><button class="tab dng"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+<tr><td><div style="display:flex;align-items:center;gap:10px"><div class="uav" style="background:var(--gradient-d)">JS</div><span style="font-weight:600;color:var(--text-primary)">Jane Smith</span></div></td><td>jane@example.com</td><td><span class="bdg bdg-a">Customer</span></td><td><span class="bdg bdg-a">Active</span></td><td style="font-weight:600">3</td><td><div class="ta"><button class="tab"><i class="fa-solid fa-pen"></i></button><button class="tab dng"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+<tr><td><div style="display:flex;align-items:center;gap:10px"><div class="uav" style="background:var(--gradient-c)">BW</div><span style="font-weight:600;color:var(--text-primary)">Bob Wilson</span></div></td><td>bob@example.com</td><td><span class="bdg bdg-a">Customer</span></td><td><span class="bdg bdg-i">Inactive</span></td><td style="font-weight:600">0</td><td><div class="ta"><button class="tab"><i class="fa-solid fa-pen"></i></button><button class="tab dng"><i class="fa-solid fa-trash"></i></button></div></td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- ============================
+     SERVER SETUP
+     ============================ -->
+<section class="ps" id="p-server">
+<div class="inst-title">
+<div class="big-ico"><i class="fa-solid fa-server"></i></div>
+<h3>Server Setup</h3>
+<p>Install server components from here. No terminal needed!</p>
+</div>
+
+<!-- Server Info Bar -->
+<div class="sg" style="grid-template-columns:repeat(3,1fr);margin-bottom:24px" id="serverInfoCards">
+<div class="sc anim-in d1"><div class="si i5"><i class="fa-solid fa-microchip"></i></div><h4>CPU Load</h4><div class="sv" id="srvCpu">--</div><div class="bg-icon"><i class="fa-solid fa-microchip"></i></div></div>
+<div class="sc anim-in d2"><div class="si i4"><i class="fa-solid fa-memory"></i></div><h4>RAM Usage</h4><div class="sv" id="srvRam">--</div><div class="bg-icon"><i class="fa-solid fa-memory"></i></div></div>
+<div class="sc anim-in d3"><div class="si i2"><i class="fa-solid fa-hard-drive"></i></div><h4>Disk</h4><div class="sv" id="srvDisk">--</div><div class="bg-icon"><i class="fa-solid fa-hard-drive"></i></div></div>
+</div>
+
+<!-- Install All Button -->
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+<div>
+<h3 style="font-size:16px;font-weight:700">Components</h3>
+<p style="font-size:12px;color:var(--text-muted)">Click any component to install individually, or use Install All</p>
+</div>
+<div style="display:flex;gap:8px">
+<button class="btn btn-p" onclick="installAllComponents()"><i class="fa-solid fa-download"></i> Install All Recommended</button>
+<button class="btn btn-g" onclick="checkServerStatus()"><i class="fa-solid fa-rotate"></i> Refresh Status</button>
+</div>
+</div>
+
+<!-- Component Cards Grid -->
+<div class="g3" style="margin-bottom:24px" id="compGrid">
+
+<!-- Web Server -->
+<div class="card anim-in d1 comp-card" id="card-webserver" style="text-align:center;padding:28px 20px;cursor:pointer;transition:all .3s">
+<div style="width:56px;height:56px;border-radius:16px;background:rgba(99,102,241,.12);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:24px;color:#6366f1"><i class="fa-solid fa-globe"></i></div>
+<h4 style="font-size:14px;font-weight:700;margin-bottom:4px">OpenLiteSpeed</h4>
+<p style="font-size:11px;color:var(--text-muted);margin-bottom:6px">High-performance web server + LSPHP 8.0-8.3</p>
+<div id="webserver-ver" style="font-size:10px;color:var(--text-muted);margin-bottom:10px;min-height:14px"></div>
+<div id="webserver-progress" style="display:none;margin-bottom:10px"><div class="prg"><div class="b g1" id="webserver-bar" style="width:0%"></div></div><div style="font-size:10px;color:var(--text-muted);margin-top:4px" id="webserver-pct"></div></div>
+<span id="webserver-status" class="bdg bdg-i">Not Installed</span>
+<button class="btn btn-sm btn-p" style="margin-top:12px;display:none" id="webserver-btn" onclick="event.stopPropagation();installComponent('webserver')"><i class="fa-solid fa-download"></i> Install</button>
+</div>
+
+<!-- PHP -->
+<div class="card anim-in d2 comp-card" id="card-php" style="text-align:center;padding:28px 20px;cursor:pointer;transition:all .3s">
+<div style="width:56px;height:56px;border-radius:16px;background:rgba(139,92,246,.12);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:24px;color:#8b5cf6"><i class="fa-brands fa-php"></i></div>
+<h4 style="font-size:14px;font-weight:700;margin-bottom:4px">PHP 8.0 - 8.3</h4>
+<p style="font-size:11px;color:var(--text-muted);margin-bottom:6px">PHP-FPM with MySQL, GD, MBString, cURL, Zip</p>
+<div id="php-ver" style="font-size:10px;color:var(--text-muted);margin-bottom:10px;min-height:14px"></div>
+<div id="php-progress" style="display:none;margin-bottom:10px"><div class="prg"><div class="b g4" id="php-bar" style="width:0%"></div></div><div style="font-size:10px;color:var(--text-muted);margin-top:4px" id="php-pct"></div></div>
+<span id="php-status" class="bdg bdg-i">Not Installed</span>
+<button class="btn btn-sm btn-p" style="margin-top:12px;display:none" id="php-btn" onclick="event.stopPropagation();installComponent('php')"><i class="fa-solid fa-download"></i> Install</button>
+</div>
+
+<!-- MariaDB -->
+<div class="card anim-in d3 comp-card" id="card-mariadb" style="text-align:center;padding:28px 20px;cursor:pointer;transition:all .3s">
+<div style="width:56px;height:56px;border-radius:16px;background:rgba(16,185,129,.12);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:24px;color:#10b981"><i class="fa-solid fa-database"></i></div>
+<h4 style="font-size:14px;font-weight:700;margin-bottom:4px">MariaDB</h4>
+<p style="font-size:11px;color:var(--text-muted);margin-bottom:6px">MySQL-compatible database server</p>
+<div id="mariadb-ver" style="font-size:10px;color:var(--text-muted);margin-bottom:10px;min-height:14px"></div>
+<div id="mariadb-progress" style="display:none;margin-bottom:10px"><div class="prg"><div class="b g2" id="mariadb-bar" style="width:0%"></div></div><div style="font-size:10px;color:var(--text-muted);margin-top:4px" id="mariadb-pct"></div></div>
+<span id="mariadb-status" class="bdg bdg-i">Not Installed</span>
+<button class="btn btn-sm btn-p" style="margin-top:12px;display:none" id="mariadb-btn" onclick="event.stopPropagation();installComponent('mariadb')"><i class="fa-solid fa-download"></i> Install</button>
+</div>
+
+<!-- phpMyAdmin -->
+<div class="card anim-in d4 comp-card" id="card-phpmyadmin" style="text-align:center;padding:28px 20px;cursor:pointer;transition:all .3s">
+<div style="width:56px;height:56px;border-radius:16px;background:rgba(245,158,11,.12);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:24px;color:#f59e0b"><i class="fa-solid fa-toolbox"></i></div>
+<h4 style="font-size:14px;font-weight:700;margin-bottom:4px">phpMyAdmin</h4>
+<p style="font-size:11px;color:var(--text-muted);margin-bottom:6px">Web-based database management</p>
+<div id="phpmyadmin-ver" style="font-size:10px;color:var(--text-muted);margin-bottom:10px;min-height:14px"></div>
+<div id="phpmyadmin-progress" style="display:none;margin-bottom:10px"><div class="prg"><div class="b g3" id="phpmyadmin-bar" style="width:0%"></div></div><div style="font-size:10px;color:var(--text-muted);margin-top:4px" id="phpmyadmin-pct"></div></div>
+<span id="phpmyadmin-status" class="bdg bdg-i">Not Installed</span>
+<button class="btn btn-sm btn-p" style="margin-top:12px;display:none" id="phpmyadmin-btn" onclick="event.stopPropagation();installComponent('phpmyadmin')"><i class="fa-solid fa-download"></i> Install</button>
+</div>
+
+<!-- Postfix -->
+<div class="card anim-in d5 comp-card" id="card-postfix" style="text-align:center;padding:28px 20px;cursor:pointer;transition:all .3s">
+<div style="width:56px;height:56px;border-radius:16px;background:rgba(236,72,153,.12);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:24px;color:#ec4899"><i class="fa-solid fa-envelope"></i></div>
+<h4 style="font-size:14px;font-weight:700;margin-bottom:4px">Postfix</h4>
+<p style="font-size:11px;color:var(--text-muted);margin-bottom:6px">SMTP email server for sending mails</p>
+<div id="postfix-ver" style="font-size:10px;color:var(--text-muted);margin-bottom:10px;min-height:14px"></div>
+<div id="postfix-progress" style="display:none;margin-bottom:10px"><div class="prg"><div class="b g4" id="postfix-bar" style="width:0%"></div></div><div style="font-size:10px;color:var(--text-muted);margin-top:4px" id="postfix-pct"></div></div>
+<span id="postfix-status" class="bdg bdg-i">Not Installed</span>
+<button class="btn btn-sm btn-p" style="margin-top:12px;display:none" id="postfix-btn" onclick="event.stopPropagation();installComponent('postfix')"><i class="fa-solid fa-download"></i> Install</button>
+</div>
+
+<!-- Security -->
+<div class="card anim-in d6 comp-card" id="card-security" style="text-align:center;padding:28px 20px;cursor:pointer;transition:all .3s">
+<div style="width:56px;height:56px;border-radius:16px;background:rgba(6,182,212,.12);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:24px;color:#06b6d4"><i class="fa-solid fa-shield-halved"></i></div>
+<h4 style="font-size:14px;font-weight:700;margin-bottom:4px">Security Suite</h4>
+<p style="font-size:11px;color:var(--text-muted);margin-bottom:6px">Certbot (SSL) + Fail2Ban + UFW Firewall</p>
+<div id="security-ver" style="font-size:10px;color:var(--text-muted);margin-bottom:10px;min-height:14px"></div>
+<div id="security-progress" style="display:none;margin-bottom:10px"><div class="prg"><div class="b g1" id="security-bar" style="width:0%"></div></div><div style="font-size:10px;color:var(--text-muted);margin-top:4px" id="security-pct"></div></div>
+<span id="security-status" class="bdg bdg-i">Not Installed</span>
+<button class="btn btn-sm btn-p" style="margin-top:12px;display:none" id="security-btn" onclick="event.stopPropagation();installComponent('security')"><i class="fa-solid fa-download"></i> Install</button>
+</div>
+
+<!-- WP-CLI -->
+<div class="card anim-in d6 comp-card" id="card-wpcli" style="text-align:center;padding:28px 20px;cursor:pointer;transition:all .3s">
+<div style="width:56px;height:56px;border-radius:16px;background:rgba(99,102,241,.12);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:24px;color:#6366f1"><i class="fa-brands fa-wordpress"></i></div>
+<h4 style="font-size:14px;font-weight:700;margin-bottom:4px">WP-CLI</h4>
+<p style="font-size:11px;color:var(--text-muted);margin-bottom:6px">WordPress command-line management tool</p>
+<div id="wpcli-ver" style="font-size:10px;color:var(--text-muted);margin-bottom:10px;min-height:14px"></div>
+<div id="wpcli-progress" style="display:none;margin-bottom:10px"><div class="prg"><div class="b g2" id="wpcli-bar" style="width:0%"></div></div><div style="font-size:10px;color:var(--text-muted);margin-top:4px" id="wpcli-pct"></div></div>
+<span id="wpcli-status" class="bdg bdg-i">Not Installed</span>
+<button class="btn btn-sm btn-p" style="margin-top:12px;display:none" id="wpcli-btn" onclick="event.stopPropagation();installComponent('wpcli')"><i class="fa-solid fa-download"></i> Install</button>
+</div>
+
+</div>
+
+<!-- Install Log -->
+<div class="card anim-in">
+<div class="ch"><h3><i class="fa-solid fa-terminal" style="color:#10b981"></i> Installation Log</h3><button class="btn btn-sm btn-g" onclick="document.getElementById('install-log').innerHTML=''"><i class="fa-solid fa-trash"></i> Clear</button></div>
+<div id="install-log" style="background:var(--code-bg);border-radius:12px;padding:18px;font-family:'JetBrains Mono','Fira Code',monospace;font-size:12px;line-height:1.8;color:#94a3b8;max-height:400px;overflow-y:auto;min-height:120px">
+<div style="color:#6366f1">[WP Panel Server Setup]</div>
+<div>Ready. Click any component above to install.</div>
+<div style="color:var(--text-muted)">Recommended: Install Web Server + MariaDB + Security first, then add PHP + phpMyAdmin + WP-CLI.</div>
+</div>
+</div>
+</section>
+
+</div><!-- pc -->
+</div><!-- mc -->
+</div><!-- app -->
+
+<!-- ============================
+     MODALS
+     ============================ -->
+<div class="mo" id="mCreate"><div class="md"><div class="md-h"><h3><i class="fa-solid fa-globe" style="color:#6366f1"></i> Create Website</h3><button class="md-x" onclick="cm('mCreate')"><i class="fa-solid fa-xmark"></i></button></div><div class="md-b"><div class="fg"><label>Domain</label><input type="text" placeholder="example.com" style="padding-left:14px"><div class="hint">Without http:// or www</div></div><div class="fr"><div class="fg"><label>PHP Version</label><select><option>PHP 8.0</option><option>PHP 8.1</option><option>PHP 8.2</option><option>PHP 8.3</option></select></div><div class="fg"><label>Site Title</label><input type="text" placeholder="My Site" style="padding-left:14px"></div></div></div><div class="md-f"><button class="btn btn-g" onclick="cm('mCreate')">Cancel</button><button class="btn btn-p" onclick="cm('mCreate');toast('Website created!','s')"><i class="fa-solid fa-check"></i> Create</button></div></div></div>
+
+<div class="mo" id="mDel"><div class="md" style="max-width:420px"><div class="md-h"><h3 style="color:#ef4444"><i class="fa-solid fa-triangle-exclamation"></i> Delete Website</h3><button class="md-x" onclick="cm('mDel')"><i class="fa-solid fa-xmark"></i></button></div><div class="md-b" style="text-align:center"><div style="width:64px;height:64px;border-radius:50%;background:rgba(239,68,68,.08);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:26px;color:#ef4444"><i class="fa-solid fa-trash"></i></div><p style="font-size:15px;font-weight:700;margin-bottom:6px">Delete example.com?</p><p style="color:var(--text-muted);font-size:13px">All files, databases, and SSL certificates will be permanently removed.</p></div><div class="md-f" style="justify-content:center"><button class="btn btn-g" onclick="cm('mDel')">Cancel</button><button class="btn btn-d" onclick="cm('mDel');toast('Website deleted','e')"><i class="fa-solid fa-trash"></i> Delete</button></div></div></div>
+
+<div class="mo" id="mDb"><div class="md"><div class="md-h"><h3><i class="fa-solid fa-database" style="color:#6366f1"></i> Create Database</h3><button class="md-x" onclick="cm('mDb')"><i class="fa-solid fa-xmark"></i></button></div><div class="md-b"><div class="fg"><label>Name</label><input type="text" placeholder="my_database" style="padding-left:14px"></div><div class="fr"><div class="fg"><label>User</label><input type="text" placeholder="db_user" style="padding-left:14px"></div><div class="fg"><label>Password</label><input type="password" placeholder="Strong password" style="padding-left:14px"></div></div></div><div class="md-f"><button class="btn btn-g" onclick="cm('mDb')">Cancel</button><button class="btn btn-p" onclick="cm('mDb');toast('Database created!','s')"><i class="fa-solid fa-check"></i> Create</button></div></div></div>
+
+<div class="mo" id="mSsl"><div class="md"><div class="md-h"><h3><i class="fa-solid fa-shield-halved" style="color:#10b981"></i> Install SSL</h3><button class="md-x" onclick="cm('mSsl')"><i class="fa-solid fa-xmark"></i></button></div><div class="md-b"><div class="fg"><label>Domain</label><select><option>example.com</option><option>myblog.com</option><option>testsite.org</option></select></div><div class="fg"><label>Email</label><input type="email" placeholder="admin@example.com" style="padding-left:14px"><div class="hint">For cert expiration notifications</div></div></div><div class="md-f"><button class="btn btn-g" onclick="cm('mSsl')">Cancel</button><button class="btn btn-s" onclick="cm('mSsl');toast('SSL installed!','s')"><i class="fa-solid fa-lock"></i> Install</button></div></div></div>
+
+<div class="mo" id="mCron"><div class="md"><div class="md-h"><h3><i class="fa-solid fa-clock" style="color:#f59e0b"></i> Add Cron Job</h3><button class="md-x" onclick="cm('mCron')"><i class="fa-solid fa-xmark"></i></button></div><div class="md-b"><div class="fg"><label>Command</label><textarea placeholder="/usr/bin/wp cron event run --due-now"></textarea></div><div class="fg"><label>Schedule</label><select><option>Every Minute</option><option>Hourly</option><option selected>Daily</option><option>Weekly</option><option>Monthly</option><option>Custom</option></select></div></div><div class="md-f"><button class="btn btn-g" onclick="cm('mCron')">Cancel</button><button class="btn btn-p" onclick="cm('mCron');toast('Cron job added!','s')"><i class="fa-solid fa-check"></i> Save</button></div></div></div>
+
+<div class="mo" id="mUser"><div class="md"><div class="md-h"><h3><i class="fa-solid fa-user-plus" style="color:#6366f1"></i> Add User</h3><button class="md-x" onclick="cm('mUser')"><i class="fa-solid fa-xmark"></i></button></div><div class="md-b"><div class="fg"><label>Name</label><input type="text" placeholder="John Doe" style="padding-left:14px"></div><div class="fr"><div class="fg"><label>Email</label><input type="email" placeholder="user@example.com" style="padding-left:14px"></div><div class="fg"><label>Password</label><input type="password" placeholder="Secure password" style="padding-left:14px"></div></div><div class="fg"><label>Role</label><select><option>Customer</option><option>Reseller</option><option>Admin</option></select></div></div><div class="md-f"><button class="btn btn-g" onclick="cm('mUser')">Cancel</button><button class="btn btn-p" onclick="cm('mUser');toast('User created!','s')"><i class="fa-solid fa-check"></i> Create</button></div></div></div>
+
+<div class="mo" id="mInstWP"><div class="md" style="max-width:480px">
+<div class="md-h"><h3><i class="fa-brands fa-wordpress" style="color:#6366f1"></i> Install WordPress</h3><button class="md-x" onclick="cm('mInstWP')"><i class="fa-solid fa-xmark"></i></button></div>
+<div class="md-b" id="instWPBody">
+<div class="inst-title"><div class="big-ico"><i class="fa-brands fa-wordpress"></i></div><h3>WordPress Installation</h3><p>myblog.com</p></div>
+<div class="inst-bar"><div class="fill" id="wpBar"></div></div>
+<div class="inst-pct" id="wpPct">0%</div>
+<div id="wpSteps">
+<div class="inst-step" id="wps1"><div class="ico"><i class="fa-solid fa-folder-plus"></i></div><div class="det"><h4><span class="spinner-sm" id="wps1s"></span>Creating directory</h4><p>Setting up public_html structure</p></div></div>
+<div class="inst-step" id="wps2"><div class="ico"><i class="fa-solid fa-download"></i></div><div class="det"><h4><span class="spinner-sm" id="wps2s"></span>Downloading WordPress</h4><p>Fetching latest WordPress 6.4.2 files</p></div></div>
+<div class="inst-step" id="wps3"><div class="ico"><i class="fa-solid fa-database"></i></div><div class="det"><h4><span class="spinner-sm" id="wps3s"></span>Creating database</h4><p>Setting up MySQL database and user</p></div></div>
+<div class="inst-step" id="wps4"><div class="ico"><i class="fa-solid fa-gear"></i></div><div class="det"><h4><span class="spinner-sm" id="wps4s"></span>Configuring WordPress</h4><p>Writing wp-config.php settings</p></div></div>
+<div class="inst-step" id="wps5"><div class="ico"><i class="fa-solid fa-palette"></i></div><div class="det"><h4><span class="spinner-sm" id="wps5s"></span>Installing theme & plugins</h4><p>Astra theme + essential plugins</p></div></div>
+<div class="inst-step" id="wps6"><div class="ico"><i class="fa-solid fa-wand-magic-sparkles"></i></div><div class="det"><h4><span class="spinner-sm" id="wps6s"></span>Final setup & optimization</h4><p>Permalinks, cache, security headers</p></div></div>
+</div>
+</div></div></div>
+
+<div class="mo" id="mInstSSL"><div class="md" style="max-width:480px">
+<div class="md-h"><h3><i class="fa-solid fa-shield-halved" style="color:#10b981"></i> Install SSL</h3><button class="md-x" onclick="cm('mInstSSL')"><i class="fa-solid fa-xmark"></i></button></div>
+<div class="md-b" id="instSSLBody">
+<div class="inst-title"><div class="big-ico" style="background:var(--gradient-d)"><i class="fa-solid fa-shield-halved"></i></div><h3>SSL Certificate Installation</h3><p>example.com</p></div>
+<div class="inst-bar"><div class="fill" id="sslBar"></div></div>
+<div class="inst-pct" id="sslPct">0%</div>
+<div id="sslSteps">
+<div class="inst-step" id="ssls1"><div class="ico"><i class="fa-solid fa-globe"></i></div><div class="det"><h4><span class="spinner-sm" id="ssls1s"></span>Verifying domain</h4><p>Checking DNS propagation for example.com</p></div></div>
+<div class="inst-step" id="ssls2"><div class="ico"><i class="fa-solid fa-key"></i></div><div class="det"><h4><span class="spinner-sm" id="ssls2s"></span>Generating SSL certificate</h4><p>Requesting Let's Encrypt certificate</p></div></div>
+<div class="inst-step" id="ssls3"><div class="ico"><i class="fa-solid fa-file-shield"></i></div><div class="det"><h4><span class="spinner-sm" id="ssls3s"></span>Installing certificate</h4><p>Configuring LiteSpeed with SSL settings</p></div></div>
+<div class="inst-step" id="ssls4"><div class="ico"><i class="fa-solid fa-rotate"></i></div><div class="det"><h4><span class="spinner-sm" id="ssls4s"></span>Setting up HTTPS redirect</h4><p>Forcing all HTTP traffic to HTTPS</p></div></div>
+<div class="inst-step" id="ssls5"><div class="ico"><i class="fa-solid fa-check-double"></i></div><div class="det"><h4><span class="spinner-sm" id="ssls5s"></span>Testing & finalizing</h4><p>Verifying SSL configuration</p></div></div>
+</div>
+</div></div></div>
+
+<div class="mo" id="mEditor"><div class="md" style="max-width:700px"><div class="md-h"><h3><i class="fa-solid fa-code" style="color:#06b6d4"></i> Code Editor</h3><button class="md-x" onclick="cm('mEditor')"><i class="fa-solid fa-xmark"></i></button></div><div class="md-b" style="padding:0"><div style="background:var(--bg-hover);padding:10px 18px;border-bottom:1px solid var(--border);font-size:12px;color:var(--text-muted)"><i class="fa-brands fa-php" style="color:#8b5cf6"></i> wp-config.php</div><textarea style="width:100%;min-height:280px;background:var(--code-bg);border:none;color:#06b6d4;padding:18px;font-family:'JetBrains Mono','Fira Code',monospace;font-size:13px;line-height:1.7;resize:vertical;outline:none"><?php
+/**
+ * WordPress Configuration File
+ */
+
+define( 'DB_NAME', 'example_db' );
+define( 'DB_USER', 'example_user' );
+define( 'DB_PASSWORD', 'secure_password_123' );
+define( 'DB_HOST', 'localhost' );
+define( 'DB_CHARSET', 'utf8mb4' );
+define( 'DB_COLLATE', '' );
+
+define( 'AUTH_KEY',         'put your unique phrase here' );
+define( 'SECURE_AUTH_KEY',  'put your unique phrase here' );
+define( 'LOGGED_IN_KEY',    'put your unique phrase here' );
+define( 'NONCE_KEY',        'put your unique phrase here' );
+
+$table_prefix = 'wp_';
+
+define( 'WP_DEBUG', false );
+
+if ( ! defined( 'ABSPATH' ) ) {
+    define( 'ABSPATH', __DIR__ . '/' );
+}
+require_once ABSPATH . 'wp-settings.php';</textarea></div><div class="md-f"><button class="btn btn-g" onclick="cm('mEditor')">Cancel</button><button class="btn btn-p" onclick="cm('mEditor');toast('File saved!','s')"><i class="fa-solid fa-floppy-disk"></i> Save</button></div></div></div>
+
+<!-- ============================
+     JAVASCRIPT
+     ============================ -->
+<script>
+var T={
+  dashboard:'Dashboard',websites:'Websites',fm:'File Manager',
+  db:'Databases',ssl:'SSL Certificates',php:'PHP Settings',
+  cron:'Cron Jobs',users:'Users',
+  server:'Server Setup'
+};
+
+function nav(p){
+  var items=document.querySelectorAll('.sb-item');
+  for(var i=0;i<items.length;i++){items[i].classList.remove('active')}
+  for(var j=0;j<items.length;j++){
+    var oc=items[j].getAttribute('onclick')||'';
+    if(oc.indexOf(p)!==-1){items[j].classList.add('active')}
+  }
+  var secs=document.querySelectorAll('.ps');
+  for(var k=0;k<secs.length;k++){secs[k].classList.remove('active')}
+  var tgt=document.getElementById('p-'+p);
+  if(tgt){tgt.classList.add('active')}
+  document.getElementById('pt').textContent=T[p]||'Dashboard';
+  document.getElementById('sb').classList.remove('open');
+}
+
+function doLogin(){
+  document.getElementById('lo').classList.add('show');
+  setTimeout(function(){
+    document.getElementById('lo').classList.remove('show');
+    document.getElementById('loginPage').classList.add('hide');
+    document.getElementById('app').classList.add('show');
+    toast('Welcome back, Admin!','s');
+  },1200);
+}
+
+function doLogout(){
+  document.getElementById('app').classList.remove('show');
+  document.getElementById('loginPage').classList.remove('hide');
+  toast('Logged out','i');
+}
+
+function togReg(){
+  var a=document.getElementById('loginForm');
+  var b=document.getElementById('regForm');
+  if(a.style.display==='none'){a.style.display='block'}else{a.style.display='none'}
+  b.classList.toggle('show');
+}
+
+function togTheme(){
+  var h=document.documentElement;
+  var c=h.getAttribute('data-theme');
+  if(c==='dark'){h.setAttribute('data-theme','light')}else{h.setAttribute('data-theme','dark')}
+  try{localStorage.setItem('theme',h.getAttribute('data-theme'))}catch(e){}
+}
+(function(){try{var s=localStorage.getItem('theme');if(s){document.documentElement.setAttribute('data-theme',s)}}catch(e){}})();
+
+function om(id){document.getElementById(id).classList.add('show');document.body.style.overflow='hidden'}
+function cm(id){document.getElementById(id).classList.remove('show');document.body.style.overflow=''}
+
+(function(){
+  var modals=document.querySelectorAll('.mo');
+  for(var i=0;i<modals.length;i++){
+    modals[i].addEventListener('click',function(e){
+      if(e.target===this){this.classList.remove('show');document.body.style.overflow=''}
+    });
+  }
+})();
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){
+    var openModals=document.querySelectorAll('.mo.show');
+    for(var i=0;i<openModals.length;i++){openModals[i].classList.remove('show');document.body.style.overflow=''}
+  }
+});
+
+function toast(msg,type){
+  if(!type){type='s'}
+  var c=document.getElementById('tc');
+  var icons={s:'fa-circle-check',e:'fa-circle-xmark',w:'fa-triangle-exclamation',i:'fa-circle-info'};
+  var ic=icons[type]||icons.i;
+  var t=document.createElement('div');
+  t.className='toast '+type;
+  t.innerHTML='<i class="fa-solid '+ic+'"></i><span class="tm">'+msg+'</span><span class="tx" onclick="this.parentElement.remove()"><i class="fa-solid fa-xmark"></i></span>';
+  c.appendChild(t);
+  setTimeout(function(){if(t.parentElement){t.remove()}},4000);
+}
+
+function toggleSB(){document.getElementById('sb').classList.toggle('open')}
+
+(function(){
+  var rp=document.getElementById('rp');
+  if(rp){
+    rp.addEventListener('input',function(){
+      var b=document.getElementById('pb');
+      var l=this.value.length;
+      var w='0%',col='#ef4444';
+      if(l>8){w='40%';col='#f59e0b'}
+      if(l>12){w='70%';col='#06b6d4'}
+      if(l>16){w='100%';col='#10b981'}
+      b.style.width=w;b.style.background=col;
+    });
+  }
+})();
+
+setTimeout(function(){
+  var bars=document.querySelectorAll('.cb');
+  for(var i=0;i<bars.length;i++){
+    (function(bar){
+      var origH=bar.style.height;
+      bar.style.height='0%';
+      setTimeout(function(){bar.style.height=origH},100);
+    })(bars[i]);
+  }
+},600);
+
+/* ===== ONE-CLICK INSTALL PROGRESS ===== */
+function runStep(id,prefix,delay){
+  return new Promise(function(resolve){
+    setTimeout(function(){
+      var el=document.getElementById(id);
+      var sp=document.getElementById(prefix);
+      if(el){el.classList.add('active');el.classList.remove('done');if(sp){sp.style.display='inline-block'}}
+      setTimeout(function(){
+        if(el){
+          el.classList.remove('active');el.classList.add('done');if(sp){sp.style.display='none'}
+          var h4=el.querySelector('h4');
+          if(h4){h4.innerHTML='<i class="fa-solid fa-circle-check ck"></i>'+h4.textContent}
+          var ico=el.querySelector('.ico');
+          if(ico){ico.innerHTML='<i class="fa-solid fa-check"></i>'}
+        }
+      },delay);
+      setTimeout(resolve,delay+200);
+    },300);
+  });
+}
+
+function startWPInstall(){
+  var steps=['wps1','wps2','wps3','wps4','wps5','wps6'];
+  var pcts=[10,30,50,65,85,100];
+  var idx=0;
+
+  function nextStep(){
+    if(idx>=steps.length){
+      setTimeout(function(){
+        document.getElementById('instWPBody').innerHTML=
+          '<div class="inst-done">'+
+          '<div class="done-ico"><i class="fa-brands fa-wordpress"></i></div>'+
+          '<h3>WordPress Installed Successfully!</h3>'+
+          '<p>WordPress 6.4.2 has been installed on myblog.com</p>'+
+          '<div class="creds">'+
+          '<h4><i class="fa-solid fa-key" style="margin-right:6px"></i>Login Credentials</h4>'+
+          '<div class="cred-row"><span class="cl">Admin URL</span><span class="cv">myblog.com/wp-admin</span></div>'+
+          '<div class="cred-row"><span class="cl">Username</span><span class="cv">admin</span></div>'+
+          '<div class="cred-row"><span class="cl">Password</span><span class="cv">xK9#mP2$vL7n</span></div>'+
+          '<div class="cred-row"><span class="cl">Theme</span><span class="cv">Astra</span></div>'+
+          '<div class="cred-row"><span class="cl">Plugins</span><span class="cv">6 installed</span></div>'+
+          '</div>'+
+          '<div class="btn-row">'+
+          '<button class="btn btn-g" onclick="cm(\'mInstWP\')"><i class="fa-solid fa-xmark"></i> Close</button>'+
+          '<button class="btn btn-p" onclick="cm(\'mInstWP\')"><i class="fa-solid fa-external-link-alt"></i> Visit Site</button>'+
+          '</div>'+
+          '</div>';
+        toast('WordPress installed on myblog.com!','s');
+      },500);
+      return;
+    }
+    document.getElementById('wpBar').style.width=pcts[idx]+'%';
+    document.getElementById('wpPct').textContent=pcts[idx]+'%';
+    runStep(steps[idx],'wps'+(idx+1)+'s',800+idx*300).then(function(){
+      idx++;
+      nextStep();
+    });
+  }
+  nextStep();
+}
+
+function startSSLInstall(){
+  var steps=['ssls1','ssls2','ssls3','ssls4','ssls5'];
+  var pcts=[15,40,60,80,100];
+  var idx=0;
+
+  function nextStep(){
+    if(idx>=steps.length){
+      setTimeout(function(){
+        document.getElementById('instSSLBody').innerHTML=
+          '<div class="inst-done">'+
+          '<div class="done-ico"><i class="fa-solid fa-shield-halved"></i></div>'+
+          '<h3>SSL Certificate Installed!</h3>'+
+          '<p>Let\'s Encrypt SSL has been installed on example.com</p>'+
+          '<div class="creds">'+
+          '<h4><i class="fa-solid fa-certificate" style="margin-right:6px"></i>Certificate Details</h4>'+
+          '<div class="cred-row"><span class="cl">Domain</span><span class="cv">example.com</span></div>'+
+          '<div class="cred-row"><span class="cl">Issuer</span><span class="cv">Let\'s Encrypt</span></div>'+
+          '<div class="cred-row"><span class="cl">Expiry</span><span class="cv" style="color:#10b981">Jan 15, 2026</span></div>'+
+          '<div class="cred-row"><span class="cl">Auto-Renew</span><span class="cv" style="color:#10b981">Enabled</span></div>'+
+          '<div class="cred-row"><span class="cl">HTTPS</span><span class="cv" style="color:#10b981">Forced Redirect ON</span></div>'+
+          '</div>'+
+          '<div class="btn-row">'+
+          '<button class="btn btn-g" onclick="cm(\'mInstSSL\')"><i class="fa-solid fa-xmark"></i> Close</button>'+
+          '<button class="btn btn-s" onclick="cm(\'mInstSSL\')"><i class="fa-solid fa-external-link-alt"></i> Visit Site</button>'+
+          '</div>'+
+          '</div>';
+        toast('SSL installed on example.com!','s');
+      },500);
+      return;
+    }
+    document.getElementById('sslBar').style.width=pcts[idx]+'%';
+    document.getElementById('sslPct').textContent=pcts[idx]+'%';
+    runStep(steps[idx],'ssls'+(idx+1)+'s',900+idx*400).then(function(){
+      idx++;
+      nextStep();
+    });
+  }
+  nextStep();
+}
+
+(function(){
+  var wpEl=document.getElementById('mInstWP');
+  var sslEl=document.getElementById('mInstSSL');
+  if(wpEl){
+    var wpObs=new MutationObserver(function(){
+      if(wpEl.classList.contains('show')){
+        document.getElementById('wpBar').style.width='0%';
+        document.getElementById('wpPct').textContent='0%';
+        startWPInstall();
+      }
+    });
+    wpObs.observe(wpEl,{attributes:true,attributeFilter:['class']});
+  }
+  if(sslEl){
+    var sslObs=new MutationObserver(function(){
+      if(sslEl.classList.contains('show')){
+        document.getElementById('sslBar').style.width='0%';
+        document.getElementById('sslPct').textContent='0%';
+        startSSLInstall();
+      }
+    });
+    sslObs.observe(sslEl,{attributes:true,attributeFilter:['class']});
+  }
+})();
+
+var installPollTimers={};
+function api(method,url,data){
+  var opts={method:method,headers:{'Content-Type':'application/json'}};
+  if(localStorage.token)opts.headers['Authorization']='Bearer '+localStorage.token;
+  if(data)opts.body=JSON.stringify(data);
+  return fetch(url,opts).then(function(r){return r.json()});
+}
+function installComponent(comp){
+  var statusEl=document.getElementById(comp+'-status');
+  var btnEl=document.getElementById(comp+'-btn');
+  var progEl=document.getElementById(comp+'-progress');
+  var barEl=document.getElementById(comp+'-bar');
+  var pctEl=document.getElementById(comp+'-pct');
+  if(!statusEl)return;
+  statusEl.className='bdg bdg-w';statusEl.textContent='Installing...';
+  if(btnEl)btnEl.style.display='none';
+  if(progEl)progEl.style.display='block';
+  var logEl=document.getElementById('install-log');
+  logEl.innerHTML+='<div style="color:#f59e0b">['+new Date().toLocaleTimeString()+'] Starting '+comp+' installation...</div>';
+  logEl.scrollTop=logEl.scrollHeight;
+  api('POST','/api/server?action=install',{component:comp}).then(function(r){
+    if(!r.success){statusEl.className='bdg bdg-e';statusEl.textContent='Failed';toast(r.error||'Install failed','e');if(progEl)progEl.style.display='none';if(btnEl)btnEl.style.display='inline-flex';return;}
+    toast(comp+' installation started','i');
+    if(installPollTimers[comp])clearInterval(installPollTimers[comp]);
+    installPollTimers[comp]=setInterval(function(){
+      api('GET','/api/server?action=progress&c='+comp).then(function(p){
+        if(p.success&&p.component===comp){
+          if(barEl)barEl.style.width=p.percent+'%';
+          if(pctEl)pctEl.textContent=p.percent+'%';
+          if(p.log){
+            var lines=p.log.trim().split('\n').slice(-3);
+            lines.forEach(function(l){if(l.trim()){var color='#94a3b8';if(l.indexOf('[OK]')>-1||l.indexOf('[DONE]')>-1)color='#10b981';if(l.indexOf('[FAIL]')>-1)color='#ef4444';logEl.innerHTML+='<div style="color:'+color+'">'+l.trim()+'</div>';}});
+            logEl.scrollTop=logEl.scrollHeight;
+          }
+          if(p.status==='installed'){
+            clearInterval(installPollTimers[comp]);
+            statusEl.className='bdg bdg-a';statusEl.textContent='Installed';
+            if(barEl)barEl.style.width='100%';
+            if(pctEl)pctEl.textContent='100%';
+            logEl.innerHTML+='<div style="color:#10b981;font-weight:700">['+new Date().toLocaleTimeString()+'] '+comp+' installed successfully!</div>';
+            logEl.scrollTop=logEl.scrollHeight;
+            toast(comp+' installed!','s');
+            setTimeout(function(){if(progEl)progEl.style.display='none';},2000);
+          }
+          if(p.status==='failed'){
+            clearInterval(installPollTimers[comp]);
+            statusEl.className='bdg bdg-e';statusEl.textContent='Failed';
+            if(progEl)progEl.style.display='none';
+            if(btnEl)btnEl.style.display='inline-flex';
+            toast(comp+' installation failed','e');
+          }
+        }
+      });
+    },2000);
+  });
+}
+function installAllComponents(){
+  toast('Installing recommended stack...','i');
+  api('POST','/api/server?action=install-all',{}).then(function(r){
+    if(!r.success){toast(r.error||'Failed','e');return;}
+    toast('Installation started for '+r.started.length+' components','i');
+    r.started.forEach(function(comp){setTimeout(function(){installComponent(comp)},500);});
+    setTimeout(function(){checkServerStatus();},3000);
+  });
+}
+function checkServerStatus(){
+  api('GET','/api/server?action=status').then(function(r){
+    if(!r.success)return;
+    if(r.server){
+      document.getElementById('srvCpu').textContent=(r.server.cpu_load?r.server.cpu_load[0].toFixed(2):'--');
+      document.getElementById('srvRam').textContent=r.server.memory_used_percent?r.server.memory_used_percent+'%':'--';
+      document.getElementById('srvDisk').textContent=r.server.memory_total_mb?(r.server.memory_available_mb/r.server.memory_total_mb*100).toFixed(0)+'% free':'--';
+    }
+    if(r.components){
+      Object.keys(r.components).forEach(function(comp){
+        var c=r.components[comp];
+        var statusEl=document.getElementById(comp+'-status');
+        var btnEl=document.getElementById(comp+'-btn');
+        var verEl=document.getElementById(comp+'-ver');
+        if(!statusEl)return;
+        if(c.status==='installed'){statusEl.className='bdg bdg-a';statusEl.textContent='Installed';if(verEl&&c.version)verEl.textContent=c.version;if(btnEl)btnEl.style.display='none';}
+        else if(c.status==='installing'){statusEl.className='bdg bdg-w';statusEl.textContent='Installing...';if(btnEl)btnEl.style.display='none';}
+        else{statusEl.className='bdg bdg-i';statusEl.textContent='Not Installed';if(btnEl)btnEl.style.display='inline-flex';}
+      });
+    }
+    toast('Status refreshed','i');
+  });
+}
+var origNav=nav;
+nav=function(page){
+  origNav(page);
+  if(page==='server')checkServerStatus();
+};
+</script>
+</body>
+</html>
